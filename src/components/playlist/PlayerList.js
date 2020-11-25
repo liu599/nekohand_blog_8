@@ -1,11 +1,12 @@
-import { h, Component } from 'preact';
+import React, {Component} from 'react';
 import style from './style.less';
 
-export default class List extends Component {
+export default class PlayerList extends Component {
 
 	ref = null;
 
 	setRef = (dom) => this.ref = dom;
+	/*
 
 	state = {
 		currentList: {},
@@ -28,14 +29,14 @@ export default class List extends Component {
 		};
 		window.PEO.register(this.listEventEntryInstance);
 		// hide or show the playlist
-		/*window.PEO.listen('plist_toggle', async (listItem) => {
+		/!*window.PEO.listen('plist_toggle', async (listItem) => {
 			return new Promise(resolve => {
 				setTimeout(() => {
 					console.log(listItem, 'listItem');
 					resolve('resolved');
 				}, 2000);
 			});
-		});*/
+		});*!/
 		window.PEO.listen('plist_add', async (data) => {
 			return new Promise(resolve => {
 				this.setState({
@@ -50,13 +51,13 @@ export default class List extends Component {
 				resolve('resolved');
 			});
 		});
-	}
+	}*/
 
-	setCurrentItem =  (item) => {
+	/*setCurrentItem =  (item) => {
 		this.setState({
 			currentList: item
 		});
-	}
+	}*/
 
 	/*
 	*
@@ -96,14 +97,14 @@ export default class List extends Component {
 			}
 			pkpk[i].querySelectorAll("span")[0].style.display = "none";
 		}
-		this.props.trigger(currentHash);
+		// this.props.trigger(currentHash);
 		// document.querySelectorAll("span")[0].style.display = "block";
 	}
 
-	render({listData}) {
+	render() {
+		const listData = this.props.listData;
 		return (
-			<div>
-				<p>List Item </p>
+			<div style={{background: "#000"}}>
 				<ol className={style.container} ref={this.setRef}>
 					{
 						listData && listData.map(
@@ -111,15 +112,15 @@ export default class List extends Component {
 								let {album,
 									artist,
 									name,
-									hashId,
+									fileId,
 									src,
 									cover} = listitem;
 								return (
-									<li key={hashId} onClick={this.clickToMe} data-hash={hashId}>
-										<span className={style.cur} data-hash={hashId} />
-										<span className={style.itx} data-hash={hashId}>{itx+1}</span>
-										<span className="title" data-hash={hashId}>{name}</span>
-										<span className={style.artist} data-hash={hashId}>{artist}</span>
+									<li key={fileId} onClick={this.clickToMe} data-hash={fileId}>
+										<span className={style.cur} data-hash={fileId} />
+										<span className={style.itx} data-hash={fileId}>{itx+1}</span>
+										<span className="title" data-hash={fileId}>{name}</span>
+										<span className={style.artist} data-hash={fileId}>{artist}</span>
 									</li>
 								);
 							}
