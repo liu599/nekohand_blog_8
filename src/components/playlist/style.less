@@ -1,6 +1,6 @@
 .container {
   & :hover {
-	background: #999999;
+    background: #999;
   }
   height: 480px;
   transition: all .5s ease;
@@ -11,6 +11,9 @@
   padding: 0;
   overflow-y: auto;
   li {
+    & :hover {
+      background: transparent;
+    }
 	& :first-child {
 	  border-top: none;
 	}

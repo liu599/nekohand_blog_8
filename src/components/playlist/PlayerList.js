@@ -1,33 +1,57 @@
 import React, {Component} from 'react';
 import style from './style.less';
+import controller from "@symph/joy/controller";
+import {autowire} from "@symph/joy/autowire";
+import MusicModel from "../../models/music";
+import NekoModel from "../../models/model";
 
+@controller((state) => {// state is store's state
+	return {
+		model: state.nekomusic, // bind model's state to props
+		eves: state.muse,
+	}
+})
 export default class PlayerList extends Component {
+
+	@autowire()
+	nekoModel: NekoModel;
+	@autowire()
+	muse: MusicModel;
 
 	ref = null;
 
 	setRef = (dom) => this.ref = dom;
-	/*
 
 	state = {
+		eventObj: {},
 		currentList: {},
 	}
 
+	async componentPrepare() {
+		await this.muse.registerPlaylist();
+		let amiEvent = this.muse.fetchAmiEvent();
+		this.setState({
+			eventObj: amiEvent,
+		})
+		amiEvent.listen("plist_change", (e) => {
+			console.log(e);
+		})
+	}
+
+	/*const currentMusic = this.state.playerList.filter(item => item.hashId === currentHash);
+        this.refAudio.setAttribute("src", currentMusic[0].url);
+        this.refAudio.play();
+        console.log(this.refAudio);
+
+        window.PEO.trigger("plist_change");
+        window.PEO.trigger("lrc_onload", currentMusic[0].name).then(() => {
+            console.log(currentHash, currentMusic[0], 'trigger end');
+        });*/
+
+	/*
+
 	constructor(props) {
 		super(props);
-		this.listEventEntryInstance =  {
-			name: 'playlist',
-			k: 'plist',
-			v: 'playlistEvents',
-			events: [
-				'plist_show',
-				'plist_hide',
-				'plist_toggle',
-				'plist_add',
-				'plist_remove',
-				'plist_change',
-			]
-		};
-		window.PEO.register(this.listEventEntryInstance);
 		// hide or show the playlist
 		/!*window.PEO.listen('plist_toggle', async (listItem) => {
 			return new Promise(resolve => {
@@ -82,7 +106,7 @@ export default class PlayerList extends Component {
 
 	clickToMe = (event) => {
 		event.stopPropagation();
-		console.log(event.target, event.target.className, this.ref);
+		// console.log(event.target, event.target.className, this.ref);
 		// event.target.style.display = "block";
 		const currentHash = event.target.dataset.hash;
 
@@ -90,9 +114,8 @@ export default class PlayerList extends Component {
 		for (let i=0;i<pkpk.length;i++)
 		{
 			if (pkpk[i].dataset.hash === currentHash) {
-				// console.log(pkpk[i].dataset.hash, currentHash);
+				this.state.eventObj.trigger("plist_change", currentHash);
 				pkpk[i].querySelectorAll("span")[0].style.display = "block";
-
 				continue;
 			}
 			pkpk[i].querySelectorAll("span")[0].style.display = "none";

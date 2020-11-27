@@ -53,6 +53,7 @@ class AmiEvents {
 			}
 		}
 		if (!this.pluginEvents[bKey]) {
+			console.error(Object.assign({}, this.pluginEvents))
 			console.error("The value of 'k' in the plugin event Entry Instance" +
 				" should be the same as events prefix");
 			return undefined;
@@ -94,10 +95,10 @@ class AmiEvents {
 			return undefined;
 		}
 		this.eventMap.plugin[pluginEventEntryInstance.k] = pluginEventEntryInstance.v;
-		if (!this.pluginEvents.hasOwnProperty(pluginEventEntryInstance.v)) {
-			this.pluginEvents[pluginEventEntryInstance.v] = [];
-		} else {
+		if (this.pluginEvents.hasOwnProperty(pluginEventEntryInstance.v)) {
 			console.warn("EVENT CONFLICT: The new plugin may override the old events");
+		} else {
+			this.pluginEvents[pluginEventEntryInstance.v] = [];
 		}
 		this.pluginEvents[pluginEventEntryInstance.v] = [
 			...pluginEventEntryInstance.events
@@ -130,7 +131,18 @@ class AmiEvents {
 	*  trigger async or sync
 	*
 	* */
+	timeInterval = 300;
+	qTimer = null;
 	async trigger(nm, instance) {
+		if (this.qTimer === null) {
+			this.qTimer = setTimeout(() => {
+				this.qTimer = null;
+				clearTimeout(this.qTimer);
+			}, this.timeInterval)
+		} else {
+			console.log(this.qTimer, "interface");
+			return
+		}
 		if (!this.isListen(nm)) {
 			console.error("EVENT ERROR: The event is not listened");
 			return null;

@@ -4,8 +4,7 @@ import {SourceController} from '../services/playlist';
 import React from "react";
 import produce, {createDraft, finishDraft, enableMapSet} from "immer";
 
-@model()
-
+@model("elephant")
 export default class AppModel {
     namespace = 'nekomusic';
     initState = {

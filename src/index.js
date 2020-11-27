@@ -11,6 +11,7 @@ import Player from './components/player/index';
 // import Lazyimg, { withLazyimg } from 'react-lazyimg-component';
 import component404 from './_error.js';
 
+
 const dictChs = ['首页', '关于'];
 const dictEn = ['HOME', 'ABOUT'];
 const dictLink = ['/', '/'];
