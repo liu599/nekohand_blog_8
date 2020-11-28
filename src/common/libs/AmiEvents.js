@@ -19,6 +19,7 @@ class AmiEvents {
 			'info',
 			'registerPlugin',
 			'unregisterPlugin',
+			'loadmusic',
 		];
 		this.pluginEvents = {};
 	}
@@ -66,15 +67,26 @@ class AmiEvents {
 	* Listen
 	*
 	* */
-	listen(nm, cb) {
-		if(this.qs(nm) && typeof cb === 'function') {
+	listen(nm, cb, override = 0) {
+
+		if (this.isListen(nm)) {
+			if (this.gobalEvents.includes(nm)) {
+				console.warn("only allow one listener for the global Event")
+				return null;
+			}
+			if (override) {
+				this.events[nm] = [];
+			}
+		}
+		if (this.qs(nm) && typeof cb === 'function') {
 			if (!this.events[nm]) {
 				this.events[nm] = [];
 			}
 			this.events[nm].push(cb);
 			return null;
+		} else {
+			console.error("EVENT LISTENING FAILURE!!!!:  " + nm);
 		}
-		console.error("EVENT LISTENING FAILURE!!!!:  " + nm);
 	}
 	/*Remove Listen*/
 	RemoveListen(nm) {
@@ -90,7 +102,10 @@ class AmiEvents {
 	*
 	* */
 	register(pluginEventEntryInstance) {
-		if (!pluginEventEntryInstance.hasOwnProperty('k') || !pluginEventEntryInstance.hasOwnProperty('v')) {
+		if (!pluginEventEntryInstance.hasOwnProperty('k')) {
+			console.error("EVENT ERROR: Unvalid pluginEventEntry Instance, should have a k and v");
+			return undefined;
+		} else if (!pluginEventEntryInstance.hasOwnProperty('v')) {
 			console.error("EVENT ERROR: Unvalid pluginEventEntry Instance, should have a k and v");
 			return undefined;
 		}
@@ -131,24 +146,44 @@ class AmiEvents {
 	*  trigger async or sync
 	*
 	* */
-	timeInterval = 300;
-	qTimer = null;
+	timeInterval = 100;
+	cache = {};
 	async trigger(nm, instance) {
-		if (this.qTimer === null) {
+		// cache the name
+		// 限制同名event多次触发
+		console.log("trigger", nm, JSON.stringify(this.cache), this.cache[nm]);
+		if (this.cache.hasOwnProperty(nm) && this.cache[nm] && this.cache[nm].qTimer !== null) {
+			console.warn("same event should be more than 100ms");
+			return
+		}
+
+		this.cache[nm] = {
+			qTimer: setTimeout(() => {
+				this.cache[nm].qTimer = null;
+				clearTimeout(this.cache[nm].qTimer);
+			}, this.timeInterval)
+		};
+
+
+		/*if (this.qTimer === null) {
+			console.log("set limiter");
+			this.cache[nm] = true;
 			this.qTimer = setTimeout(() => {
 				this.qTimer = null;
 				clearTimeout(this.qTimer);
 			}, this.timeInterval)
 		} else {
-			console.log(this.qTimer, "interface");
+			console.warn("event trigger too fast, should not less than 100ms");
 			return
-		}
+		}*/
+
 		if (!this.isListen(nm)) {
 			console.error("EVENT ERROR: The event is not listened");
 			return null;
 		}
 		if (this.events[nm] && this.events[nm].length) {
 			for (let i=0; i<this.events[nm].length; i+=1) {
+				console.log("running", nm);
 				await this.events[nm][i](instance);
 			}
 		}

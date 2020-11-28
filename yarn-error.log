@@ -1,0 +1,58 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\liub\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  D:\aimi_player_new\node_modules\.bin;C:\Python38\Scripts\;C:\Python38\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files\Git\cmd;C:\Program Files\Zulu\zulu-13-jre\bin\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Go\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Users\liub\go\bin;%MYSQL_HOME%\bin;C:\Program Files (x86)\Pulse Secure\VC142.CRT\X64\;C:\Program Files (x86)\Pulse Secure\VC142.CRT\X86\;C:\Users\liub\AppData\Local\Microsoft\WindowsApps;C:\Users\liub\AppData\Roaming\npm;C:\Program Files\JetBrains\GoLand 2020.1.4\bin;C:\Program Files\JetBrains\WebStorm 2020.2\bin;C:\Users\liub\AppData\Local\Programs\Microsoft VS Code\bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.18.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: connect ETIMEDOUT 104.16.19.35:443
+      at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1141:16)
+
+npm manifest: 
+  {
+    "name": "starblog_joy",
+    "version": "1.0.0",
+    "description": "star blog server-side-rendering",
+    "main": "index.js",
+    "repository": "http://git.nekohand.moe:2525/eddie32/starblog_joyful.git",
+    "author": "Tokei <970228409@qq.com>",
+    "license": "MIT",
+    "scripts": {
+      "dev": "joy dev -p 4040",
+      "build": "joy build",
+      "export": "npm run build && joy export"
+    },
+    "dependencies": {
+      "@symph/joy": "^1.2.7",
+      "@symph/joy-css": "latest",
+      "@symph/joy-image": "^0.4.1",
+      "@symph/joy-less": "latest",
+      "fs": "^0.0.1-security",
+      "good-storage": "^1.1.0",
+      "immer": "^8.0.0",
+      "jsonp": "^0.2.1",
+      "lodash": "^4.17.11",
+      "path-to-regexp": "^2.4.0",
+      "qs": "^6.6.0",
+      "query-string": "^6.13.7",
+      "react": "^16.7.0",
+      "react-dom": "^16.7.0",
+      "react-lazyimg-component": "0.0.2",
+      "umi-request": "latest"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

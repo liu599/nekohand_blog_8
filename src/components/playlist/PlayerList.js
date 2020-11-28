@@ -24,7 +24,7 @@ export default class PlayerList extends Component {
 
 	state = {
 		eventObj: {},
-		currentList: {},
+		currentId: 0,
 	}
 
 	async componentPrepare() {
@@ -32,21 +32,49 @@ export default class PlayerList extends Component {
 		let amiEvent = this.muse.fetchAmiEvent();
 		this.setState({
 			eventObj: amiEvent,
+			currentId: this.props.listData[0].fileId || 0,
 		})
-		amiEvent.listen("plist_change", (e) => {
-			console.log(e);
-		})
+		amiEvent.listen("plist_change", (Id) => {
+			console.log("current Id:", Id);
+		}, 1)
 	}
 
-	/*const currentMusic = this.state.playerList.filter(item => item.hashId === currentHash);
-        this.refAudio.setAttribute("src", currentMusic[0].url);
-        this.refAudio.play();
-        console.log(this.refAudio);
+	componentDidMount() {
+		this.props.onRef(this);
+	}
 
-        window.PEO.trigger("plist_change");
-        window.PEO.trigger("lrc_onload", currentMusic[0].name).then(() => {
-            console.log(currentHash, currentMusic[0], 'trigger end');
-        });*/
+	filterMusic(currentId) {
+		const currentMusic = this.props.listData.filter(item => item.fileId === currentId);
+		console.log(currentMusic);
+		let amiEvent = this.muse.fetchAmiEvent();
+		amiEvent.trigger("loadmusic", currentMusic).then(() => {
+			return amiEvent.trigger("plist_change", currentId);
+		});
+	}
+
+	next = () => {
+		let currentId = this.state.currentId;
+		console.log(currentId, "ppp");
+		let currentIndex = this.props.listData.findIndex(item => item.fileId === currentId);
+		currentIndex += 1;
+		let currentMusic = currentIndex > this.props.listData.length - 1 ? this.props.listData[0] : this.props.listData[currentIndex];
+		this.setState({
+			currentId: currentMusic.fileId,
+		})
+		return currentMusic;
+	}
+
+	prev = () => {
+		let currentId = this.state.currentId;
+		let currentIndex = this.props.listData.findIndex(item => item.fileId === currentId);
+		currentIndex -= 1;
+		let currentMusic = currentIndex < 0 ? this.props.listData[this.props.listData.length - 1] : this.props.listData[currentIndex];
+		this.setState({
+			currentId: currentMusic.fileId,
+		})
+		return currentMusic;
+	}
+
 
 	/*
 
@@ -108,19 +136,22 @@ export default class PlayerList extends Component {
 		event.stopPropagation();
 		// console.log(event.target, event.target.className, this.ref);
 		// event.target.style.display = "block";
-		const currentHash = event.target.dataset.hash;
+		const currentId = event.target.dataset.fid;
 
 		let pkpk =this.ref.querySelectorAll("li");
 		for (let i=0;i<pkpk.length;i++)
 		{
-			if (pkpk[i].dataset.hash === currentHash) {
-				this.state.eventObj.trigger("plist_change", currentHash);
+			if (pkpk[i].dataset.fid === currentId) {
+				this.filterMusic(currentId);
+				this.setState({
+					currentId,
+				})
 				pkpk[i].querySelectorAll("span")[0].style.display = "block";
 				continue;
 			}
 			pkpk[i].querySelectorAll("span")[0].style.display = "none";
 		}
-		// this.props.trigger(currentHash);
+		// this.props.trigger(currentId);
 		// document.querySelectorAll("span")[0].style.display = "block";
 	}
 
@@ -139,11 +170,11 @@ export default class PlayerList extends Component {
 									src,
 									cover} = listitem;
 								return (
-									<li key={fileId} onClick={this.clickToMe} data-hash={fileId}>
-										<span className={style.cur} data-hash={fileId} />
-										<span className={style.itx} data-hash={fileId}>{itx+1}</span>
-										<span className="title" data-hash={fileId}>{name}</span>
-										<span className={style.artist} data-hash={fileId}>{artist}</span>
+									<li key={fileId} onClick={this.clickToMe} data-fid={fileId}>
+										<span className={style.cur} data-fid={fileId} />
+										<span className={style.itx} data-fid={fileId}>{itx+1}</span>
+										<span className="title" data-fid={fileId}>{name}</span>
+										<span className={style.artist} data-fid={fileId}>{artist}</span>
 									</li>
 								);
 							}

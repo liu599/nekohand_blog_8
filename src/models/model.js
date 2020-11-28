@@ -30,7 +30,7 @@ export default class AppModel {
                 let nm = decodeURIComponent(item.fileName).split("."+item.filetype)[0].trim();
                 let rp = decodeURIComponent(item.relativePath).split('/');
                 let rootUrl = item["FileNo"]<2073?config.oldFileRootUrl:config.fileRootUrl;
-                item.name = nm;
+                item.name = nm + (item.filetype !== "flac" ? "" : " [HQ]");
                 item.artist = config.artist[rp[rp.length-3]] || rp[rp.length-3];
                 item.album = rp[rp.length-2];
                 item.url = rootUrl + decodeURIComponent(item.src);
