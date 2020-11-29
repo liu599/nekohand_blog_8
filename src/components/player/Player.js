@@ -46,6 +46,7 @@ export default class Player extends Component {
 
     state = {
         canSee: true,
+        canSeeSeekIcon: false,
         instance: {
             FileNo: 173,
             album: "[2016.02.24] Yes! BanG_Dream!",
@@ -68,6 +69,7 @@ export default class Player extends Component {
         totalTimeNumber: 0,
         curTimeNumber: 0,
         percentage: 0.0,
+        playMode :1,
     }
 
 
@@ -144,8 +146,19 @@ export default class Player extends Component {
         }, 1100);
     }
 
+    switchMode = (playMode) => {
+        this.muse.fetchAmiEvent().setPlayerMode(playMode);
+        this.setState({
+            playMode
+        })
+    }
+
     loadmusic = (instance) => {
-        console.log(this.ref);
+        console.log(instance);
+        if (!this.ref) {
+            console.error("cannot load music");
+            return
+        }
         /*
 	*
 	*   FileNo: 173
@@ -166,19 +179,27 @@ export default class Player extends Component {
 	*
 	*
 	* */
-
-        if (!instance.length) {
-            console.error("No music to load");
-            return;
+        if (Array.isArray(instance) && Promise.resolve(instance[0]) === instance) {
+            console.log("loading music");
         } else {
-            console.log("loading music....", instance[0].name);
+            let newPromise = new Promise((resolve, reject) => {
+                resolve(instance[0]);
+            })
+            instance = [newPromise];
         }
-        this.setState({
-            instance: instance[0],
-        });
-        setTimeout(() => {
-            this.playMusic();
-        }, 800)
+        console.log(instance);
+
+        Promise.allSettled(instance).then(
+            (results) =>
+                results.forEach(
+                    (result) => {
+                        console.log(result, this.state);
+                        this.setState({
+                            instance: result.value,
+                        }, () => {
+                            this.playMusic();
+                        });
+                    }));
     }
 
     playMusic = () => {
@@ -205,6 +226,7 @@ export default class Player extends Component {
         this.ref.currentTime = percentage * this.ref.duration * 0.01;
         this.setState({
             percentage,
+            canSeeSeekIcon: true,
         })
     }
 
@@ -328,11 +350,23 @@ export default class Player extends Component {
                                             width: `${this.state.percentage}%`,
                                             background: "red",
                                         }}>
-                                            <span className="bar-thumb" style={{display: "none"}} >
+                                            {(this.state.canSeeSeekIcon ?
+                                                    <span className={style.barIcon} style={{
+                                                        left: `20px`
+                                                    }}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
                                                     <path d="M4 16c0-6.6 5.4-12 12-12s12 5.4 12 12c0 1.2-0.8 2-2 2s-2-0.8-2-2c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c1.2 0 2 0.8 2 2s-0.8 2-2 2c-6.6 0-12-5.4-12-12z" />
                                                 </svg>
                                             </span>
+                                                : <span className={style.barIcon} style={{
+                                                        left: `40px`
+                                                    }}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
+                                                    <path d="M4 16c0-6.6 5.4-12 12-12s12 5.4 12 12c0 1.2-0.8 2-2 2s-2-0.8-2-2c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c1.2 0 2 0.8 2 2s-0.8 2-2 2c-6.6 0-12-5.4-12-12z" />
+                                                </svg>
+                                            </span>
+                                                )}
+
                                         </div>
                                     </div>
                                 </div>
@@ -347,21 +381,30 @@ export default class Player extends Component {
                                 <div className="controller-audio" />
                                 <div className="controller-lrc" />
                                 <div className="controller-playlist">
-                                    <div className={style.button}>
-                                        <svg viewBox="0 0 40 40" id="while">
-                                            <path d="M20.539,37.912c-9.51,0-17.247-7.737-17.247-17.247S11.136,3.418,20.646,3.418S38,11.155,38,20.665V22h-3v-1.335   c0-7.855-6.498-14.247-14.354-14.247s-14.3,6.391-14.3,14.247s6.364,14.247,14.22,14.247c4.594,0,8.806-2.178,11.467-5.804   l-8.014-0.88l0.324-2.982l12.533,1.378l-1.002,1.94C32.899,34.33,27.022,37.912,20.539,37.912z" />
-                                        </svg>
-                                    </div>
-                                    <div className={style.button}>
-                                        <svg viewBox="0 0 40 40" id="rand">
-                                            <path d="M34.423,30c-10.673,0-12.231-4.356-13.776-9.567C22.192,15.233,23.75,11,34.423,11h3.621l-8.532-8.707L27.413,4.26   l3.641,3.599c-7.433,0.765-10.345,4.074-11.981,7.838C17.318,11.566,14.065,7.998,5,7.998v3c9.82,0,10.944,4.11,12.492,9.367   c-1.549,5.258-2.673,9.37-12.492,9.37v3c9.095,0,12.339-3.515,14.09-7.626c1.617,3.732,4.495,7,11.878,7.76l-3.598,3.593   l2.121,2.111L38.044,30H34.423z" />
-                                        </svg>
-                                    </div>
-                                    <div className={style.button}>
-                                        <svg viewBox="0 0 40 40" id="one">
-                                            <path d="M20.578,37.987V15.603l-5.645,3.883l-1.7-2.472l10.345-7.117v24.731c6.519-1.326,11.415-7.169,11.415-13.964   c0-7.855-6.391-14.247-14.247-14.247S6.5,12.81,6.5,20.665c0,6.808,4.842,12.689,11.513,13.985l-0.572,2.945   C9.363,36.026,3.5,28.906,3.5,20.665c0-9.51,7.737-17.247,17.247-17.247s17.247,7.737,17.247,17.247   c0,8.896-6.936,16.444-15.79,17.186L20.578,37.987z" />
-                                        </svg>
-                                    </div>
+                                    {
+                                        (this.state.playMode === 1)  &&
+                                        <div className={style.button} onClick={() => this.switchMode(2)}>
+                                            <svg viewBox="0 0 40 40" id="while">
+                                                <path d="M20.539,37.912c-9.51,0-17.247-7.737-17.247-17.247S11.136,3.418,20.646,3.418S38,11.155,38,20.665V22h-3v-1.335   c0-7.855-6.498-14.247-14.354-14.247s-14.3,6.391-14.3,14.247s6.364,14.247,14.22,14.247c4.594,0,8.806-2.178,11.467-5.804   l-8.014-0.88l0.324-2.982l12.533,1.378l-1.002,1.94C32.899,34.33,27.022,37.912,20.539,37.912z" />
+                                            </svg>
+                                        </div>
+                                    }
+                                    {
+                                        (this.state.playMode === 2)  &&
+                                        <div className={style.button} onClick={() => this.switchMode(3)}>
+                                            <svg viewBox="0 0 40 40" id="rand">
+                                                <path d="M34.423,30c-10.673,0-12.231-4.356-13.776-9.567C22.192,15.233,23.75,11,34.423,11h3.621l-8.532-8.707L27.413,4.26   l3.641,3.599c-7.433,0.765-10.345,4.074-11.981,7.838C17.318,11.566,14.065,7.998,5,7.998v3c9.82,0,10.944,4.11,12.492,9.367   c-1.549,5.258-2.673,9.37-12.492,9.37v3c9.095,0,12.339-3.515,14.09-7.626c1.617,3.732,4.495,7,11.878,7.76l-3.598,3.593   l2.121,2.111L38.044,30H34.423z" />
+                                            </svg>
+                                        </div>
+                                    }
+                                    {
+                                        (this.state.playMode === 3)  &&
+                                        <div className={style.button}  onClick={() => this.switchMode(1)}>
+                                            <svg viewBox="0 0 40 40" id="one">
+                                                <path d="M20.578,37.987V15.603l-5.645,3.883l-1.7-2.472l10.345-7.117v24.731c6.519-1.326,11.415-7.169,11.415-13.964   c0-7.855-6.391-14.247-14.247-14.247S6.5,12.81,6.5,20.665c0,6.808,4.842,12.689,11.513,13.985l-0.572,2.945   C9.363,36.026,3.5,28.906,3.5,20.665c0-9.51,7.737-17.247,17.247-17.247s17.247,7.737,17.247,17.247   c0,8.896-6.936,16.444-15.79,17.186L20.578,37.987z" />
+                                            </svg>
+                                        </div>
+                                    }
                                     <div className={style.button}>
                                         <svg viewBox="0 0 40 40" id="list">
                                             <rect x="12.5" y="10" width="20" height="4" />

@@ -1,5 +1,8 @@
 class AmiEvents {
 	constructor() {
+		this.player = {
+			PlayerMode: 0,
+		}
 		this.events = {};
 		this.eventMap = {
 			ado: 'audioEvents',
@@ -20,8 +23,13 @@ class AmiEvents {
 			'registerPlugin',
 			'unregisterPlugin',
 			'loadmusic',
+			'setMode',
 		];
 		this.pluginEvents = {};
+	}
+
+	setPlayerMode(mode) {
+		this.player.PlayerMode = mode;
 	}
 	/*
 	* Event Tag

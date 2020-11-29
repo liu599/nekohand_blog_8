@@ -4,6 +4,7 @@ import controller from "@symph/joy/controller";
 import {autowire} from "@symph/joy/autowire";
 import MusicModel from "../../models/music";
 import NekoModel from "../../models/model";
+import utils from "../../utils/utils";
 
 @controller((state) => {// state is store's state
 	return {
@@ -24,6 +25,7 @@ export default class PlayerList extends Component {
 
 	state = {
 		eventObj: {},
+		currentIndex: [],
 		currentId: 0,
 	}
 
@@ -33,6 +35,7 @@ export default class PlayerList extends Component {
 		this.setState({
 			eventObj: amiEvent,
 			currentId: this.props.listData[0].fileId || 0,
+			currentList: this.props.listData,
 		})
 		amiEvent.listen("plist_change", (Id) => {
 			console.log("current Id:", Id);
@@ -53,15 +56,40 @@ export default class PlayerList extends Component {
 	}
 
 	next = () => {
+		console.log(this.muse.fetchAmiEvent().player.PlayerMode, "next");
 		let currentId = this.state.currentId;
-		console.log(currentId, "ppp");
-		let currentIndex = this.props.listData.findIndex(item => item.fileId === currentId);
-		currentIndex += 1;
-		let currentMusic = currentIndex > this.props.listData.length - 1 ? this.props.listData[0] : this.props.listData[currentIndex];
-		this.setState({
-			currentId: currentMusic.fileId,
-		})
-		return currentMusic;
+		console.log(this.props.listData.filter(item => item.fileId === currentId));
+		if (this.muse.fetchAmiEvent().player.PlayerMode === 3) {
+			return this.props.listData.filter(item => item.fileId === currentId)[0];
+		}
+		let currentIndex;
+		let currentMusic;
+		currentIndex = this.props.listData.findIndex(item => item.fileId === currentId);
+		if (this.muse.fetchAmiEvent().player.PlayerMode === 2) {
+			// Random order
+			return this.modeShuffle().then(() => {
+				if (currentIndex === -1) {
+					currentMusic = this.props.listData[this.state.currentIndex[0]];
+					currentIndex = 0
+				} else {
+					console.log("undefined", this.state.currentIndex, this.props.listData[this.state.currentIndex[0]]);
+					currentIndex += 1;
+					currentMusic = currentIndex > this.state.currentList.length - 1 ? this.props.listData[this.state.currentIndex[0]] : this.props.listData[this.state.currentIndex[currentIndex]];
+				}
+				this.setState({
+					currentId: currentMusic.fileId,
+				})
+				return currentMusic;
+			});
+
+		} else {
+			currentIndex += 1;
+			currentMusic = currentIndex > this.props.listData.length - 1 ? this.props.listData[0] : this.props.listData[currentIndex];
+			this.setState({
+				currentId: currentMusic.fileId,
+			})
+			return currentMusic;
+		}
 	}
 
 	prev = () => {
@@ -74,6 +102,16 @@ export default class PlayerList extends Component {
 		})
 		return currentMusic;
 	}
+
+	async modeShuffle() {
+		let currentIndex = utils.randomOrder(this.state.currentList);
+		console.log("cur", currentIndex);
+		return this.setState({
+			currentIndex
+		})
+	}
+
+	modeSingleRepeat = () => {}
 
 
 	/*
