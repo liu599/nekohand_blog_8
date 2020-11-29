@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Head from '@symph/joy/head';
 import NekoModel from '../../models/model';
 import controller from '@symph/joy/controller';
 import {autowire} from '@symph/joy/autowire';
@@ -12,9 +11,10 @@ const timeToString = (dd) => {
     if (typeof dd !== "number") {
         return "00:00"
     }
-    const p1 = dd % 60 > 10 ? `${(dd % 60).toFixed(0)}` : `0${(dd % 60).toFixed(0)}`;
-    let p00 = Math.floor(dd/60).toFixed(0);
-    let p0 = p00 > 10 ? `${p00}` : `0${p00}`;
+    let tempMin = parseInt(dd / 60);
+    let tempSec = parseInt(dd % 60);
+    let p0 = tempMin < 10 ? ('0' + tempMin) : tempMin;
+    let p1 = tempSec < 10 ? ('0' + tempSec) : tempSec;
     return `${p0}:${p1}`
 }
 
@@ -67,6 +67,7 @@ export default class Player extends Component {
         totalTime: "00:00",
         totalTimeNumber: 0,
         curTimeNumber: 0,
+        percentage: 0.0,
     }
 
 
@@ -84,15 +85,27 @@ export default class Player extends Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount", this.muse.fetchAmiEvent())
+        // console.log("componentDidMount", this.muse.fetchAmiEvent())
         console.log(this.props.model, "loading play event..");
         this.muse.fetchAmiEvent().listen("loadmusic", this.loadmusic);
         setTimeout(() => {
             console.log(this, this.ref, "1x033s");
+            this.ref && this.ref.addEventListener("progress", () => {
+                console.log(this.ref.buffered, "buffered");
+            });
+            this.ref && this.ref.addEventListener("seeking", () => {
+                console.log("seeking... please wait");
+                this.pause();
+            });
+            this.ref && this.ref.addEventListener("seeked", () => {
+                console.log("seeked");
+                this.playMusic();
+            });
             this.ref && this.ref.addEventListener("canplay", () => {
                 this.setState({
                     totalTime: timeToString(this.ref.duration),
                     totalTimeNumber: this.ref.duration,
+                    percentage: 0.0
                 })
             });
             this.ref && this.ref.addEventListener("timeupdate", () => {
@@ -101,6 +114,7 @@ export default class Player extends Component {
                     curTime: timeToString(this.ref.currentTime),
                     curTimeNumber: this.ref.currentTime,
                 })
+                this.onProgress();
             });
             this.ref && this.ref.addEventListener("pause", () => {
                 console.log("pause");
@@ -111,11 +125,13 @@ export default class Player extends Component {
             this.ref && this.ref.addEventListener("emptied", () => {
                 this.setState({
                     canSee: true,
+                    percentage: 0.0
                 })
             });
             this.ref && this.ref.addEventListener("ended", () => {
                 this.setState({
                     canSee: true,
+                    percentage: 0.0
                 })
             });
             // TODO: Batch add..
@@ -125,7 +141,7 @@ export default class Player extends Component {
                 })
             });
 
-        }, 800);
+        }, 1100);
     }
 
     loadmusic = (instance) => {
@@ -161,22 +177,49 @@ export default class Player extends Component {
             instance: instance[0],
         });
         setTimeout(() => {
-            this.playmusic();
+            this.playMusic();
         }, 800)
     }
 
-    playmusic = () => {
+    playMusic = () => {
         this.ref.play();
+
         this.setState({
             canSee: false,
         })
 
     }
 
+    maxRecWidth = 0;
+    seekMusic = (ev) => {
+        let clientBarWidth = ev.target.getBoundingClientRect().width;
+        if (clientBarWidth > this.maxRecWidth) {
+            this.maxRecWidth = clientBarWidth;
+        }
+        ev.persist();
+        ev.stopPropagation();
+        console.log(ev.clientX, ev.target.getBoundingClientRect(), this.maxRecWidth);
+        let startBoundingPoint = ev.target.getBoundingClientRect().x;
+        let pos = ev.clientX - startBoundingPoint;
+        let percentage = Math.min((pos / this.maxRecWidth)*100, 100);
+        this.ref.currentTime = percentage * this.ref.duration * 0.01;
+        this.setState({
+            percentage,
+        })
+    }
+
     pause = () => {
         this.ref.pause();
         this.setState({
             canSee: true,
+        })
+    }
+
+    onProgress = () => {
+        // console.log("on progress")
+        let {totalTimeNumber, curTimeNumber} = this.state;
+        this.setState({
+            percentage: Math.min((curTimeNumber /  totalTimeNumber)*100, 100),
         })
     }
 
@@ -192,9 +235,6 @@ export default class Player extends Component {
 
         return (
             <>
-                <Head>
-                    <title>AIMI PLAYER</title>
-                </Head>
                 <div>
                     <audio preload="auto"
                            ref={this.setRef}
@@ -259,7 +299,7 @@ export default class Player extends Component {
                                 </div>
                                 {
                                     (this.state.canSee) ?
-                                        <div className={style.button} onClick={this.playmusic}>
+                                        <div className={style.button} onClick={this.playMusic}>
                                             <svg viewBox="0 0 40 40" id="play">
                                                 <path d="M8.625,2.723c-1.34-0.872-2.437-0.277-2.438,1.322L6.163,36.128c-0.001,1.598,1.094,2.194,2.435,1.323   L35.289,21.67c1.34-0.871,1.341-2.297,0.001-3.168L8.625,2.723z" />
                                             </svg>
@@ -282,9 +322,12 @@ export default class Player extends Component {
                             </div>
                             <div className={style.bar} >
                                 <div className={style.barWrap}>
-                                    <div className={style.barProgress}>
+                                    <div className={style.barProgress} onClick={this.seekMusic}>
                                         <div className="controller-loaded" />
-                                        <div className="controller-played">
+                                        <div className={style.barPlayed} style={{
+                                            width: `${this.state.percentage}%`,
+                                            background: "red",
+                                        }}>
                                             <span className="bar-thumb" style={{display: "none"}} >
                                                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
                                                     <path d="M4 16c0-6.6 5.4-12 12-12s12 5.4 12 12c0 1.2-0.8 2-2 2s-2-0.8-2-2c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c1.2 0 2 0.8 2 2s-0.8 2-2 2c-6.6 0-12-5.4-12-12z" />
