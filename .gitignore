@@ -2,4 +2,8 @@ package-lock.json
 /yarn.lock
 /.joy/
 /node_modules/
-/static/test/
+/static/test/bootstrap-3.3.7-dist/
+/static/test/mdui-v1.0.1/css/
+/static/test/mdui-v1.0.1/fonts/
+/static/test/mdui-v1.0.1/icons/
+/static/test/mdui-v1.0.1/js/
