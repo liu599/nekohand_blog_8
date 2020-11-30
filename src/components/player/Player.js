@@ -70,6 +70,7 @@ export default class Player extends Component {
         curTimeNumber: 0,
         percentage: 0.0,
         playMode :1,
+        loadMusicInstance: false
     }
 
 
@@ -86,64 +87,90 @@ export default class Player extends Component {
 
     }
 
+    initPlayer = () => {
+        console.log(this, this.ref, "1x033s");
+        this.ref && this.ref.addEventListener("progress", () => {
+            console.log(this.ref.buffered, "buffered");
+        });
+        this.ref && this.ref.addEventListener("seeking", () => {
+            console.log("seeking... please wait");
+            this.pause();
+        });
+        this.ref && this.ref.addEventListener("seeked", () => {
+            console.log("seeked");
+            this.playMusic();
+        });
+        this.ref && this.ref.addEventListener("canplay", () => {
+            this.setState({
+                totalTime: timeToString(this.ref.duration),
+                totalTimeNumber: this.ref.duration,
+                percentage: 0.0
+            })
+        });
+        this.ref && this.ref.addEventListener("timeupdate", () => {
+            // console.log(this.ref.currentTime)
+            this.setState({
+                curTime: timeToString(this.ref.currentTime),
+                curTimeNumber: this.ref.currentTime,
+            })
+            this.onProgress();
+        });
+        this.ref && this.ref.addEventListener("pause", () => {
+            console.log("pause");
+            this.setState({
+                canSee: true,
+            })
+        });
+        this.ref && this.ref.addEventListener("emptied", () => {
+            this.setState({
+                canSee: true,
+                percentage: 0.0
+            })
+        });
+        this.ref && this.ref.addEventListener("ended", () => {
+            this.setState({
+                canSee: true,
+                percentage: 0.0
+            }, () => {
+                this.loadmusic([this.refList.next()]);
+            })
+        });
+        // TODO: Batch add..
+        this.ref && this.ref.addEventListener("play", () => {
+            this.setState({
+                canSee: false,
+            })
+        });
+    }
+
     componentDidMount() {
         // console.log("componentDidMount", this.muse.fetchAmiEvent())
         console.log(this.props.model, "loading play event..");
         this.muse.fetchAmiEvent().listen("loadmusic", this.loadmusic);
-        setTimeout(() => {
-            console.log(this, this.ref, "1x033s");
-            this.ref && this.ref.addEventListener("progress", () => {
-                console.log(this.ref.buffered, "buffered");
-            });
-            this.ref && this.ref.addEventListener("seeking", () => {
-                console.log("seeking... please wait");
-                this.pause();
-            });
-            this.ref && this.ref.addEventListener("seeked", () => {
-                console.log("seeked");
-                this.playMusic();
-            });
-            this.ref && this.ref.addEventListener("canplay", () => {
+        let self = this;
+        const setMusicEvents = new Promise((resolve) => {
+             setTimeout(() => {
+                self.initPlayer();
+                resolve();
+            }, 2000);
+        });
+        Promise.allSettled([setMusicEvents]).then(() => {
+            console.log("check out");
+            if (this.ref === null) {
+                console.log("check out failed");
+                setTimeout(() => {
+                    this.initPlayer();
+                    this.setState({
+                        loadMusicInstance: true
+                    })
+                }, 3000)
+            } else {
                 this.setState({
-                    totalTime: timeToString(this.ref.duration),
-                    totalTimeNumber: this.ref.duration,
-                    percentage: 0.0
+                    loadMusicInstance: true
                 })
-            });
-            this.ref && this.ref.addEventListener("timeupdate", () => {
-                // console.log(this.ref.currentTime)
-                this.setState({
-                    curTime: timeToString(this.ref.currentTime),
-                    curTimeNumber: this.ref.currentTime,
-                })
-                this.onProgress();
-            });
-            this.ref && this.ref.addEventListener("pause", () => {
-                console.log("pause");
-                this.setState({
-                    canSee: true,
-                })
-            });
-            this.ref && this.ref.addEventListener("emptied", () => {
-                this.setState({
-                    canSee: true,
-                    percentage: 0.0
-                })
-            });
-            this.ref && this.ref.addEventListener("ended", () => {
-                this.setState({
-                    canSee: true,
-                    percentage: 0.0
-                })
-            });
-            // TODO: Batch add..
-            this.ref && this.ref.addEventListener("play", () => {
-                this.setState({
-                    canSee: false,
-                })
-            });
+            }
+        })
 
-        }, 1100);
     }
 
     switchMode = (playMode) => {
@@ -247,7 +274,7 @@ export default class Player extends Component {
 
     render() {
 
-        if (this.props.model.loading || this.props.model.playerData.length === 0) {
+        if (this.props.model.loading || this.props.model.playerData.length === 0 ) {
             return (
                 <Loading.Loading />
             )
@@ -350,22 +377,14 @@ export default class Player extends Component {
                                             width: `${this.state.percentage}%`,
                                             background: "red",
                                         }}>
-                                            {(this.state.canSeeSeekIcon ?
+                                            {(this.state.canSeeSeekIcon &&
                                                     <span className={style.barIcon} style={{
                                                         left: `20px`
                                                     }}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
                                                     <path d="M4 16c0-6.6 5.4-12 12-12s12 5.4 12 12c0 1.2-0.8 2-2 2s-2-0.8-2-2c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c1.2 0 2 0.8 2 2s-0.8 2-2 2c-6.6 0-12-5.4-12-12z" />
                                                 </svg>
-                                            </span>
-                                                : <span className={style.barIcon} style={{
-                                                        left: `40px`
-                                                    }}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 32 32">
-                                                    <path d="M4 16c0-6.6 5.4-12 12-12s12 5.4 12 12c0 1.2-0.8 2-2 2s-2-0.8-2-2c0-4.4-3.6-8-8-8s-8 3.6-8 8 3.6 8 8 8c1.2 0 2 0.8 2 2s-0.8 2-2 2c-6.6 0-12-5.4-12-12z" />
-                                                </svg>
-                                            </span>
-                                                )}
+                                            </span> )}
 
                                         </div>
                                     </div>
