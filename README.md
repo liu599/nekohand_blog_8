@@ -1,5 +1,3 @@
-# Aimi Player: Event-based Music Player
+# Aimi Player
 
-1.0.0 - Playlist, Control
-
-Complete workflow.
+Working Player

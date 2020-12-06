@@ -8,5 +8,8 @@
     <orderEntry type="library" name="holder" level="application" />
     <orderEntry type="library" name="highlight" level="application" />
     <orderEntry type="library" name="docs-v4" level="application" />
+    <orderEntry type="library" name="Tips" level="application" />
+    <orderEntry type="library" name="Range" level="application" />
+    <orderEntry type="library" name="Follow" level="application" />
   </component>
 </module>
