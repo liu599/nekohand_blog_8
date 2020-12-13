@@ -85,9 +85,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /*Status*/
+import { connect, history } from 'umi';
 
+function mapStateToProps(state) {
+  console.log("state", state);
+  return { mock: state.count };
+}
 
-export default function PrimarySearchAppBar(props) {
+function PrimarySearchAppBar(props) {
+  console.log(props, 'props');
   const {title, sections} = props;
   const classes = useStyles();
   const [tabIndex, setTabIndex] = React.useState(0);
@@ -138,11 +144,14 @@ export default function PrimarySearchAppBar(props) {
         <Tabs
           classes={tabsStyles}
           value={tabIndex}
-          onChange={(e, index) => setTabIndex(index)}
+          onChange={(e, index) => {
+            history.push(sections[index].url);
+            setTabIndex(index);
+          }}
         >
           {sections.map(item => {
             return (
-              <Tab classes={tabItemStyles} label={item.title} />
+              <Tab key={item.title} classes={tabItemStyles} label={item.title} />
             )
           })}
         </Tabs>
@@ -193,3 +202,5 @@ export default function PrimarySearchAppBar(props) {
   );
 
 }
+
+export default connect(mapStateToProps)(PrimarySearchAppBar);

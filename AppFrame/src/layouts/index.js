@@ -1,33 +1,57 @@
 import React from 'react';
-import { connect } from 'umi';
-import styles from './index.css';
 import "@/assets/material-font.css"
 import "@/assets/icon.css";
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import Header from '@/components/blogHeader';
 import StickyFooter from '@/components/stickyFooter';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import { orange } from '@material-ui/core/colors';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Container from '@material-ui/core/Container';
+import { deepOrange } from '@material-ui/core/colors';
 
 const sections = [
-  { title: "Ranking", url: 'ranking' },
-  { title: 'Tags', url: 'tags' },
-  { title: 'Zo', url: 'zo' },
-  { title: 'About', url: 'about' },
+  { title: "New", url: '/' },
+  { title: "Ranking", url: '/ranking' },
+  { title: 'Tags', url: '/tags' },
+  { title: 'Zo', url: '/zo/zo' },
+  { title: 'About', url: '/about' },
 ];
 
 const theme = createMuiTheme({
-  status: {
-    danger: orange[500],
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    fontSize: 16,
+  },
+  palette: {
+    primary: {
+      // light: 这将从 palette.primary.main 中进行计算，
+      main: deepOrange["400"],
+      // dark: 这将从 palette.primary.main 中进行计算，
+      // contrastText: 这将计算与 palette.primary.main 的对比度
+    },
+    secondary: {
+      light: '#0066ff',
+      main: '#0044ff',
+      // dark: 这将从 palette.secondary.main 中进行计算，
+      contrastText: '#ffcc00',
+    },
+    // 使用 `getContrastText()` 来最大化
+    // 背景和文本的对比度
+    contrastThreshold: 3,
+    // 使用下面的函数用于将颜色的亮度在其调色板中
+    // 移动大约两个指数。
+    // 例如，从红色 500（Red 500）切换到 红色 300（Red 300）或 红色 700（Red 700）。
+    tonalOffset: 0.2,
   },
 });
 
@@ -39,7 +63,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
+    minHeight: '100vh',
   },
   paper: {
     padding: theme.spacing(2),
@@ -55,78 +80,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 function BasicLayout(props) {
 
-  function addNumber(number){
-    props.dispatch({
-      type: 'count/addAfter1Second',
-      payload: number
-    })
-  }
-  console.log(props, "after connect");
   const classes = useStyles();
-
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header title={"Nekomusic"} sections={sections} />
-        <div className={classes.root}>
-          <GridList cellHeight={180} className={classes.gridList}>
-            <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-              <ListSubheader component="div">December</ListSubheader>
-            </GridListTile>
-            <GridListTile key={"v300"}>
-              <img src={"https://blog.ecs32.top/static/009MwxDlgy1g5vymokkpkj30rw0ietc9.jpg"} alt={"Grid Title"} />
-              <GridListTileBar
-                title={"Grid Title"}
-                subtitle={<span>by: Eddie32</span>}
-                actionIcon={
-                  <IconButton aria-label={`info about Eddie32`} className={classes.icon}>
-                    <InfoIcon />
-                  </IconButton>
-                }
-              />
-            </GridListTile>
-          </GridList>
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>xs=6</Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper className={classes.paper}>xs=6</Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>xs=3</Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>xs=3</Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>xs=3</Paper>
-            </Grid>
-            <Grid item xs={3}>
-              <Paper className={classes.paper}>{props.mock}</Paper>
-            </Grid>
-          </Grid>
-        </div>
-        <Button variant="contained" color="secondary" onClick={()=>addNumber(1)}>
-          Generate
-        </Button>
-        {props.children}
+        <Container maxWidth="lg" className={classes.root}>
+          {props.children}
+        </Container>
         {StickyFooter()}
       </ThemeProvider>
   );
 }
 
-function mapStateToProps(state) {
-  console.log("state", state);
-  return { mock: state.count };
-}
-
-export default connect(mapStateToProps)(BasicLayout);
+export default BasicLayout;

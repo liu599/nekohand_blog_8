@@ -1,0 +1,10 @@
+{
+  "name": "connect-neko",
+  "version": "1.0.0",
+  "author": "Tokei <970228409@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "query-string": "^6.13.7",
+    "umi-request": "latest"
+  }
+}
