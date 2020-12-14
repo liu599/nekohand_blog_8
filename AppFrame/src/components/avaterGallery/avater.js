@@ -10,49 +10,62 @@ const artistData = [
   {
     name: "寺川爱美",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
+    desc: "声优歌手",
+    id: 1,
     song: 30,
   },
   {
     name: "水濑祈",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
+    desc: "声优歌手",
+    id: 2,
     song: 30,
   },
   {
     name: "内田真礼",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
+    desc: "声优歌手",
+    id: 11,
     song: 30,
   },
   {
     name: "伊藤美来",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
+    desc: "声优歌手",
+    id: 10,
     song: 30,
   },
   {
-    name: "Roselia",
+    name: "TrySail",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
+    desc: "声优组合",
+    id: 9,
     song: 30,
   },
   {
     name: "Poppin'Party",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
+    desc: "声优女子乐团",
+    id: 6,
     song: 30,
   },
   {
-    name: "PeakyPeaky",
+    name: "Peaky P-key",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
+    id: 4,
+    desc: "声优女子DJ组合",
     song: 30,
   },
   {
     name: "小仓唯",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
-    song: 30,
-  },
-  {
-    name: "虹咲同好会",
-    avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
+    id: 5,
+    desc: "声优歌手",
     song: 30,
   }
 ]
+
+import { Column, Row, Item } from '@mui-treasury/components/flex';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -65,8 +78,9 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
+    width: theme.spacing(12),
+    height: theme.spacing(12),
+    margin: "0 auto",
   },
 }));
 
@@ -74,32 +88,25 @@ const useStyles = makeStyles((theme) => ({
 export default function NestedGrid() {
   const classes = useStyles();
 
-  function FormRow() {
-    return (
-      <React.Fragment>
-        {
-          artistData.map(item => {
-            return (
-              <Grid item xs={2} key={item.name}>
-                <Badge badgeContent={item.song} color="primary">
-                  <Avatar alt={item.name} src={item.avatar} className={classes.large} />
-                  <Typography variant="h6" gutterBottom>
-                    {item.name}
-                  </Typography>
-                </Badge>
-              </Grid>
-            )
-          })
-        }
-      </React.Fragment>
-    );
-  }
-
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        <Grid container item lg={12} spacing={1}>
-          <FormRow />
+        <Grid container item lg={12} spacing={1} style={{padding: 32}}>
+          {
+            artistData.map(item => {
+              return (
+                <Grid item xs={3} key={item.id} style={{padding: 16}} >
+                    <Avatar alt={item.name} src={item.avatar} className={classes.large} style={{padding: 8}} />
+                    <Typography  variant={"h6"} align={"center"} style={{marginBottom: 4}}>
+                      {item.name}
+                    </Typography>
+                    <Typography variant={"subtitle2"} paragraph align={"center"}>
+                      {item.desc}
+                    </Typography>
+                </Grid>
+              )
+            })
+          }
         </Grid>
       </Grid>
     </div>

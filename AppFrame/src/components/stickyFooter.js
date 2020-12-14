@@ -8,7 +8,7 @@ import Link from '@material-ui/core/Link';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
-      {'Copyright © '}
+      {'Designed by Tokei © '}
       <Link color="inherit" href="https://blog.ecs32.top/" target={"_blank"}>
         NekoMusic 公式サイト委員會
       </Link>{' '}
@@ -31,8 +31,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3, 2),
     marginTop: 'auto',
     textAlign: 'center',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
+    backgroundColor: theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
   },
 }));
 
@@ -42,8 +41,8 @@ export default function StickyFooter(props) {
   return (
     <footer className={classes.footer}>
       <Container maxWidth="sm">
-        <Typography variant="body1">
-          Nekohand music is a website for daily working music booster.
+        <Typography variant="subtitle1">
+          Nekohand music, a daily working music booster.
         </Typography>
         <Copyright />
       </Container>

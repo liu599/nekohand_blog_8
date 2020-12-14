@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import styles from './index.css';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
 import {
@@ -24,6 +23,7 @@ import Divider from '@material-ui/core/Divider';
 import CardGallery from '../components/gallery/gallery';
 import Topic from '../components/topic/topic';
 import ArtistGrids from '../components/avaterGallery/avater'
+import Ranking from '../components/ranking/ranking'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.secondary,
   },
   cardRoot: {
-    maxWidth: 600,
+    width: "100%",
   }
 }));
 
@@ -63,13 +63,11 @@ function topPage(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
+      <Grid container spacing={1} style={{paddingBottom: 42}}>
         <Grid item lg={12}>
-          <Paper className={classes.paper}>
             <Grid container justify="center" spacing={4}>
-              <Grid item xs={6}>
-                <Paper className={classes.paper}>
-                  <Card className={classes.cardRoot}>
+              <Grid item lg={8} style={{paddingTop: 60}}>
+                <Card className={classes.cardRoot}>
                     <CardActionArea>
                       <CardMedia
                         component='img' // add this line to use <img />
@@ -80,24 +78,30 @@ function topPage(props) {
                         <Typography gutterBottom variant="h5" component="h2">
                           プリンセスコネクト！Re:Dive
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                          前作での最終ストーリー、ユイをプリンセスとして展開したルートに沿っており、Re:Diveにおいてはプロローグ内で覇瞳皇帝の最後の逆襲に敗れて意識が無くなった時点から物語は始まる。
+                        <Typography variant="body2" color="textSecondary" component="p" paragraph>
+                          前作での最終ストーリー、ユイをプリンセスとして展開したルートに沿っており、
+                          Re:Diveにおいてはプロローグ内で覇瞳皇帝の最後の逆襲に敗れて意識が無くなった時点から物語は
+                          始まる。
+                        </Typography>
+                        <Typography variant="button" color="textSecondary" component="p">
+                          Read more...
                         </Typography>
                       </CardContent>
                     </CardActionArea>
                   </Card>
-                </Paper>
               </Grid>
-              <Grid item xs={5}>
-                <Paper className={classes.paper}>xs=5</Paper>
+              <Grid item lg={4} style={{paddingTop: 60}}>
+                <Typography variant="h5">
+                  今日推荐
+                </Typography>
+                <Ranking />
               </Grid>
             </Grid>
-          </Paper>
         </Grid>
       </Grid>
       <Grid container>
         <Grid item lg={12}>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6">
             Top
           </Typography>
           <Divider />
@@ -107,16 +111,18 @@ function topPage(props) {
         </Grid>
       </Grid>
       <Grid container spacing={6}>
-        <Grid item lg={8}>
-          <Typography variant="h6" gutterBottom>
+        <Grid item lg={8} style={{minHeight: 550}}>
+          <Typography variant="h6">
             Artist
           </Typography>
+          <Divider />
           <ArtistGrids />
         </Grid>
-        <Grid item lg={4}>
-          <Typography variant="h6" gutterBottom>
+        <Grid item lg={4} style={{minHeight: 550}}>
+          <Typography variant="h6">
             Topic
           </Typography>
+          <Divider />
           <Topic />
         </Grid>
       </Grid>

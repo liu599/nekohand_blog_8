@@ -9,13 +9,14 @@ import Container from '@material-ui/core/Container';
 import { deepOrange } from '@material-ui/core/colors';
 
 const sections = [
-  { title: "New", url: '/' },
-  { title: "Ranking", url: '/ranking' },
-  { title: 'Tags', url: '/tags' },
+  { title: "Top", url: '/' },
   { title: 'Zo', url: '/zo/zo' },
+  { title: "Blog", url: '/blog' },
   { title: 'About', url: '/about' },
 ];
 
+const theme = createMuiTheme({});
+/*
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
@@ -53,7 +54,7 @@ const theme = createMuiTheme({
     // 例如，从红色 500（Red 500）切换到 红色 300（Red 300）或 红色 700（Red 700）。
     tonalOffset: 0.2,
   },
-});
+});*/
 
 const useStyles = makeStyles((theme) => ({
   root: {
