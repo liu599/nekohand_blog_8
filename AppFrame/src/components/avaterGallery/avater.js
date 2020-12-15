@@ -6,6 +6,8 @@ import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from "@material-ui/core/Typography";
 
+import { Column, Row, Item } from '@mui-treasury/components/flex';
+
 const artistData = [
   {
     name: "寺川爱美",
@@ -64,8 +66,6 @@ const artistData = [
     song: 30,
   }
 ]
-
-import { Column, Row, Item } from '@mui-treasury/components/flex';
 
 
 const useStyles = makeStyles((theme) => ({
