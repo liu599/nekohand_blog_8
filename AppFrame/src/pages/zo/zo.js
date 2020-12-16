@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import DefaultList from '../../components/musicListDefault';
 import CardGallery from '../../components/gallery/gallery';
 import MusicInfoTable from '../../components/musicInfoTable'
+import LyricArea from '../../components/lyric'
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -41,17 +42,17 @@ export default function() {
       <Grid container spacing={1} style={{paddingBottom: 42}}>
         <Grid item lg={12}>
           <Grid container justify="flex-start">
-            <Grid item lg={6}>
-              <GridList cellHeight={240} cols={5}>
+            <Grid item lg={8}>
+              <GridList cellHeight={300} cols={5}>
                 <GridListTile key="0345" cols={2}>
-                  <img style={{width: 238, height: 238, padding: 1, border: "1px solid red", boxShadow: "1px 1px 3px #9e9e9e"}}
+                  <img style={{width: 298, height: 298, padding: 1, border: "1px solid red", boxShadow: "1px 1px 3px #9e9e9e"}}
                        src="https://file.ecs32.top/data%2Fmusic%2FArtist%2FInoriMinase%2F%5B2019.04.10%5DCatch%20the%20Rainbow%21%2Fcover.jpg" alt=""/>
                 </GridListTile>
                 <GridListTile key="0348" cols={3} style={{paddingLeft: 12}}>
                   <Typography color="primary" variant="h5">
                     Catch the Rainbow！
                   </Typography>
-                  <Typography variant="subtitle1">
+                  <Typography variant="subtitle1" paragraph>
                     水瀬いのり
                   </Typography>
                   <MusicInfoTable />
@@ -66,14 +67,17 @@ export default function() {
                 主題歌の6thシングル「TRUST IN ETERNITY」、TVアニメ『えんどろ~!』エンディングテーマの7thシングル「Wonder Caravan!」他、収録。
               </Typography>
             </Grid>
-            <Grid item lg={4}>
-              Lrc
+            <Grid item lg={4} style={{position: "relative", overflowY: "hidden", maxHeight: 500, padding: 30, textAlign: "center"}}>
+              <LyricArea />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
+      <Typography variant="h6" paragraph style={{marginTop: 32}}>
+         Content
+      </Typography>
       <DefaultList />
-      <Typography variant="h6" gutterBottom paragraph style={{marginTop: 32}}>
+      <Typography variant="h6" paragraph style={{marginTop: 32}}>
         Related Music
       </Typography>
       <CardGallery  data={mockData}/>
