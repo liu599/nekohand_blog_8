@@ -88,12 +88,11 @@ const useStyles = makeStyles((theme) => ({
 import { connect, history } from 'umi';
 
 function mapStateToProps(state) {
-  console.log("state", state);
+  // console.log("state", state);
   return { mock: state.count };
 }
 
 function PrimarySearchAppBar(props) {
-  console.log(props, 'props');
   const {title, sections} = props;
   const classes = useStyles();
   const [tabIndex, setTabIndex] = React.useState(0);

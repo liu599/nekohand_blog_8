@@ -5,7 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import DefaultList from '../../components/musicListDefault';
 import CardGallery from '../../components/gallery/gallery';
 import MusicInfoTable from '../../components/musicInfoTable'
-import LyricArea from '../../components/lyric'
+
+import MusicInfoTabs from '../../components/musicInfoTabs'
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -67,8 +68,9 @@ export default function() {
                 主題歌の6thシングル「TRUST IN ETERNITY」、TVアニメ『えんどろ~!』エンディングテーマの7thシングル「Wonder Caravan!」他、収録。
               </Typography>
             </Grid>
-            <Grid item lg={4} style={{position: "relative", overflowY: "hidden", maxHeight: 500, padding: 30, textAlign: "center"}}>
-              <LyricArea />
+            <Grid item lg={4} style={{position: "relative",
+              maxHeight: 500}}>
+              <MusicInfoTabs />
             </Grid>
           </Grid>
         </Grid>

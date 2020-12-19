@@ -14,23 +14,8 @@ const albumFilter = (keyName, arr) => {
   }
   return ret
 }
-const connectConfig = nekoConnect.config;
 const fetchUrl = nekoConnect.fetchUrl;
-const optionFilter = (obj, key) => {
-  if (obj.hasOwnProperty(key)) {
-    return obj[key]
-  } else {
-    console.error(`we do not have ${key}.`);
-  }
-}
-const optionConvert = ({urlTag, queryData}) => {
-  const configObj = optionFilter(connectConfig, urlTag);
-  return [configObj[0], {
-    requestType: configObj[1],
-    method: configObj[2],
-    data: queryData,
-  }];
-}
+const optionConvert = nekoConnect.optionConvert;
 export default {
   namespace: 'nekoMusic',
   state: {

@@ -11,7 +11,7 @@ import { deepOrange } from '@material-ui/core/colors';
 const sections = [
   { title: "Top", url: '/' },
   { title: 'Zo', url: '/zo/zo' },
-  { title: "Blog", url: '/blog' },
+  { title: "Blog", url: '/nekohand/blog' },
   { title: 'About', url: '/about' },
 ];
 

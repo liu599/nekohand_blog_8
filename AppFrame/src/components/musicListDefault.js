@@ -10,12 +10,12 @@ import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
 const columns = [
-  { id: 'name', label: 'No.', minWidth: 170 },
+  { id: 'name', label: 'No.', maxWidth: 60 },
   { id: 'code', label: 'Title', minWidth: 100 },
   {
     id: 'population',
     label: 'Quality',
-    minWidth: 170,
+    maxWidth: 60,
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
@@ -41,11 +41,11 @@ function createData(name, code, population, size) {
 }
 
 const rows = [
-  createData('1', 'Starry Wish', "HQ", "192000", "水濑祈"),
-  createData('2', 'Starry Wish', "HQ", "192000", "水濑祈"),
-  createData('3', 'Starry Wish', "HQ", "192000", "水濑祈"),
-  createData('4', 'Starry Wish', "HQ", "192000", "水濑祈"),
-  createData('5', 'Starry Wish', "HQ", "192000", "水濑祈")
+  createData('1', 'Starry Wish', "HQ", "水濑祈"),
+  createData('2', 'Starry Wish', "HQ", "水濑祈"),
+  createData('3', 'Starry Wish', "HQ", "水濑祈"),
+  createData('4', 'Starry Wish', "HQ", "水濑祈"),
+  createData('5', 'Starry Wish', "HQ", "水濑祈")
 ];
 
 const useStyles = makeStyles({
@@ -70,6 +70,8 @@ export default function StickyHeadTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  // console.log(columns, "blablabla")
 
   return (
     <Paper className={classes.root}>
