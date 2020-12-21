@@ -44,7 +44,7 @@ function topPage(props) {
 
   function fetchMusic(){
     props.dispatch({
-      type: 'nekoMusic/fetchMp3Music',
+      type: 'nekoMusic/fetchMusic',
       payload: {
         urlTag: 'playerlist',
         queryData: {
@@ -134,7 +134,6 @@ function topPage(props) {
 function mapStateToProps(state) {
   console.log("state", state);
   return {
-    mock: state.count,
     music: state.nekoMusic,
   };
 }

@@ -1,16 +1,23 @@
+import lodash from 'lodash'
 import produce from 'immer';
 import nekoConnect from '../../../Connect';
 import config from "../../../MusicPlayer/src/connect/config";
-const albumFilter = (keyName, arr) => {
+const keyNameFilter = (keyName, arr) => {
+  let arrb = lodash.cloneDeep(arr);
   let keyMap = {}
   let ret = [];
   for (let t = 0; t < arr.length; t +=1) {
     let p = arr[t][keyName];
     if (keyMap.hasOwnProperty(p)) {
+      let cn = keyMap[p];
+      // console.log(arrb[cn].audioList, Object.isFrozen(arrb));
+      arrb[cn].audioList.push(arrb[t])
       continue;
     }
-    keyMap[p] = true;
-    ret.push(arr[t])
+    keyMap[p] = t;
+    // arr[t].audioList = [];
+    // arrb[t].audioList.push(arrb[t].FileNo)
+    ret.push(arrb[t])
   }
   return ret
 }
@@ -25,6 +32,7 @@ export default {
     },
     storage: [],
     albums: [],
+    artists: []
   },
   reducers: {
     saveMusicData(state, {payload: musicData}) {
@@ -40,6 +48,7 @@ export default {
           item.cover = rootUrl + decodeURIComponent(item.relativePath) + "cover.jpg";
           item.lrc = null;
           item.album = rp[rp.length-2];
+          item.audioList = [];
           delete item.relativePath;
           delete item.src;
           delete item.fileName;
@@ -64,17 +73,27 @@ export default {
           }
         })
       });
-      const albumData = albumFilter("album", _imuData);
+      const albumData = keyNameFilter("album", _imuData);
+      const artistData = keyNameFilter("artist", _imuData);
       return Object.assign({}, state, {
         storage: _imuData,
         albums: albumData,
+        artists: artistData,
       })
     }
   },
   effects: {
-    *fetchMp3Music(action, { call, put }) {
-      let {data} = yield call(fetchUrl, optionConvert(action.payload))
+    *fetchMusic(action, { call, put }) {
+      let data1 = yield call(fetchUrl, optionConvert(action.payload))
+      let data2 = yield call(fetchUrl, optionConvert({
+        urlTag: 'playerlist',
+        queryData: {
+          fileType: 'flac',
+        },
+        urlOption: {},
+      }))
+      let data = [...data1.data, ...data2.data];
       yield put({type: "saveMusicData", payload: data})
-    }
+    },
   },
 }
