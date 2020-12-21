@@ -7,12 +7,11 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
-import FastfoodIcon from '@material-ui/icons/Fastfood';
 import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import HotelIcon from '@material-ui/icons/Hotel';
-import RepeatIcon from '@material-ui/icons/Repeat';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+
+import { convertTimeStamp } from "../../utils/array";
 
 import { Link } from 'umi';
 
@@ -20,91 +19,46 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: '6px 16px',
   },
+  timeLineContent: {
+    flex: 5
+  },
+  timeLineItem: {
+    height: 135,
+  },
   secondaryTail: {
     backgroundColor: theme.palette.secondary.main,
   },
 }));
 
-export default function CustomizedTimeline() {
+export default function CustomizedTimeline(props) {
   const classes = useStyles();
 
+  console.log(props, "pppp");
+
   return (
-    <Timeline align="alternate">
-      <TimelineItem>
-        <TimelineOppositeContent>
-          <Typography variant="body2" color="textSecondary">
-            9:30 am
-          </Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineDot>
-            <FastfoodIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper elevation={3} className={classes.paper}>
+    <Timeline>
+      {props.posts && props.posts.map((item, index) =>
+        <TimelineItem key={item.id} className={classes.timeLineItem}>
+          <TimelineOppositeContent>
+            <Typography variant="body2" color="textSecondary">
+              {convertTimeStamp(item.createdAt)}
+            </Typography>
+          </TimelineOppositeContent>
+          <TimelineSeparator>
+            <TimelineDot color="primary">
+              <LaptopMacIcon />
+            </TimelineDot>
+            {index !== 9 && <TimelineConnector />}
+          </TimelineSeparator>
+          <TimelineContent  className={classes.timeLineContent}>
             <Typography variant="h6" component="h1">
-              Eat
+              <Link to={`/nekohand/post?id=${item.id}`}>
+                {item.title}
+              </Link>
             </Typography>
-            <Typography>Because you need strength</Typography>
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
-      <TimelineItem>
-        <TimelineOppositeContent>
-          <Typography variant="body2" color="textSecondary">
-            10:00 am
-          </Typography>
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineDot color="primary">
-            <LaptopMacIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper elevation={3} className={classes.paper}>
-            <Typography variant="h6" component="h1">
-              Code
-            </Typography>
-            <Typography>Because it&apos;s awesome!</Typography>
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot color="primary" variant="outlined">
-            <HotelIcon />
-          </TimelineDot>
-          <TimelineConnector className={classes.secondaryTail} />
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper elevation={3} className={classes.paper}>
-            <Typography variant="h6" component="h1">
-              Sleep
-            </Typography>
-            <Typography>Because you need rest</Typography>
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
-      <TimelineItem>
-        <TimelineSeparator>
-          <TimelineDot color="secondary">
-            <RepeatIcon />
-          </TimelineDot>
-        </TimelineSeparator>
-        <TimelineContent>
-          <Paper elevation={3} className={classes.paper}>
-            <Typography variant="h6" component="h1">
-              Repeat
-            </Typography>
-            <Typography>Because this is the life you love!
-              <Link to="/nekohand/post?id=5e8ff0a358adfe7c1b6146c8">Post Link</Link>
-            </Typography>
-          </Paper>
-        </TimelineContent>
-      </TimelineItem>
+          </TimelineContent>
+        </TimelineItem>
+      )}
     </Timeline>
   );
 }

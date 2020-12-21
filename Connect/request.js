@@ -31,30 +31,37 @@ const _errorHandler = (error) => {
     })
 };
 
-async function FetchSources(param) {
-    const url = param[0];
-    const option = param[1];
-    console.log(option, "fetchSources");
+async function FetchSources(params) {
+    const url = params[0];
+    const option = params[1];
+    console.log(params, "fetchSources");
     // TODO: follow umi-request to write an uniform wrapper
     let data = option.data || {};
-    let params = data;
     const requestType = option.requestType || "FORM";
     const method = option.method.toUpperCase() || "GET";
     if (method === "POST") {
          params = {};
          data = queryString.stringify(data);
     }
-    return request(url, {
+    let par2 = {
         requestType,
         method,
         errorHandler: option.errorHandler || _errorHandler,
-        params: params,
+        params: data,
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
         },
         body: data,
-    })
+    }
+    if (method === "GET" || data === "") {
+        delete par2.body
+    }
+    if (method === "POST" || data === "") {
+        delete par2.params
+    }
+    console.log(par2, "parameter");
+    return request(url, par2)
 }
 
 export default FetchSources;

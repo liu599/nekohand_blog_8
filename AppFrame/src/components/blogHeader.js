@@ -132,12 +132,11 @@ function PrimarySearchAppBar(props) {
           component="h2"
           variant="h5"
           color="inherit"
-          align="center"
+          align="left"
           noWrap
           className={classes.toolbarTitle}
-          style={{marginLeft: -150, flex: 1}}
         >
-          NekoMusic
+          Nekohand - 猫の手も借りたい
         </Typography>
 
         <Tabs

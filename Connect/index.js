@@ -30,7 +30,7 @@ const optionConvert = ({urlTag, queryData, urlOption}) => {
     let configClone = JSON.parse(JSON.stringify(config));
     const configObj = optionFilter(configClone, urlTag);
     // console.log(configObj, "current");
-    if (urlOption.hasOwnProperty('suffix')) {
+    if (urlOption && urlOption.hasOwnProperty('suffix')) {
         configObj[0] = configObj[0] + '/' + urlOption.suffix;
     }
     return [configObj[0], {

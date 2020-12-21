@@ -2,11 +2,24 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
+import Typography from '@material-ui/core/Typography';
+import Categories from '../../components/nestedCategories/Categories'
+import Chron from '../../components/nestedCategories/Chron'
+import Ad from '../../components/ads'
+
+
+
 const useStyles = makeStyles({
   root: {
     width: '100%',
     position: 'relative',
   },
+  rightColumn: {
+    paddingTop: 32,
+  },
+  widget: {
+    marginBottom: 32,
+  }
 });
 
 
@@ -20,7 +33,22 @@ function BlogLayout(props) {
           {props.children}
         </Grid>
         <Grid item lg={2}>
-          Index Here
+          <div className={classes.rightColumn}>
+            <Typography variant="h4"  gutterBottom paragraph>
+              Categories
+            </Typography>
+            <Categories />
+            <div className={classes.widget} />
+            <Typography variant="h4"  gutterBottom paragraph>
+              Navigation
+            </Typography>
+            <Chron />
+            <div className={classes.widget} />
+            <Typography variant="h4"  gutterBottom paragraph>
+              Highlight
+            </Typography>
+            <Ad />
+          </div>
         </Grid>
       </Grid>
 

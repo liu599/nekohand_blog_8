@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { convertTimeStamp } from "../../utils/array";
+import styles from './articleBody.less'
 import {
   Link,
   connect,
@@ -14,24 +16,31 @@ import {
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    maxWidth: 500,
+    padding: '32px'
   },
 });
 
+const queryString = require('query-string');
+
 function Post(props) {
 
+  let {data} = props;
   function fetchPost(){
+    const parsed = queryString.parse(props.history.location.search);
+    console.log(props, parsed, "parsed");
     props.dispatch({
-      type: 'nekohandBlog/fetchPostList',
+      type: 'nekohandBlog/fetchAPost',
       payload: {
         urlTag: 'nekohandBlog.post',
         urlOption: {
-          suffix: '5e8ff0a358adfe7c1b6146c8',
+          suffix: parsed.id,
         },
         queryData: {},
       }
     })
   }
+
+  function createBody() { return {__html: data.currentPost.body}; };
 
   useEffect(() => {
     fetchPost();
@@ -43,49 +52,22 @@ function Post(props) {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h1" component="h2" gutterBottom>
-        h1. Heading
-      </Typography>
-      <Typography variant="h2" gutterBottom>
-        h2. Heading
-      </Typography>
-      <Typography variant="h3" gutterBottom>
-        h3. Heading
-      </Typography>
       <Typography variant="h4" gutterBottom>
-        h4. Heading
+        {data.currentPost.title}
       </Typography>
-      <Typography variant="h5" gutterBottom>
-        h5. Heading
+      <Typography variant="h6" gutterBottom paragraph>
+        {convertTimeStamp(data.currentPost.createdAt)}, published by Tokei, &nbsp;
+        <Link to={`/nekohand/blog`}>
+           Return
+        </Link>
+      </Typography>
+     {/* <Typography variant="h5" gutterBottom>
+        {data.currentPost.title}
       </Typography>
       <Typography variant="h6" gutterBottom>
-        h6. Heading
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom>
-        subtitle1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-      </Typography>
-      <Typography variant="subtitle2" gutterBottom>
-        subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-        unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
-        dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-      </Typography>
-      <Typography variant="body2" gutterBottom>
-        body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-        unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
-        dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-      </Typography>
-      <Typography variant="button" display="block" gutterBottom>
-        button text
-      </Typography>
-      <Typography variant="caption" display="block" gutterBottom>
-        caption text
-      </Typography>
-      <Typography variant="overline" display="block" gutterBottom>
-        overline text
-      </Typography>
+        {data.currentPost.title}
+      </Typography>*/}
+        <div className={styles.articleBody} dangerouslySetInnerHTML={createBody()} />
     </div>
   );
 }
@@ -93,7 +75,7 @@ function Post(props) {
 function mapStateToProps(state) {
   console.log("state", state);
   return {
-    post: state.nekohandBlog,
+    data: state.nekohandBlog,
   };
 }
 

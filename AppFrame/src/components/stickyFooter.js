@@ -42,7 +42,7 @@ export default function StickyFooter(props) {
     <footer className={classes.footer}>
       <Container maxWidth="sm">
         <Typography variant="subtitle1">
-          Nekohand music, a daily working music booster.
+          Nekohand - Website for daily.
         </Typography>
         <Copyright />
       </Container>

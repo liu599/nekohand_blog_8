@@ -1,0 +1,98 @@
+@import '../../assets/base.less';
+.articleBody {
+  @media (max-width: 800px) {
+    min-height: 50vh;
+  }
+  text-align: justify;
+  font-size: 1.4rem;
+  line-height: 1.8;
+  display: block;
+  padding: 1.2em .4em;
+  border-top: 1px dotted @fontColorRedCurrent;
+  //border-bottom: 1px dotted @fontColorRedCurrent;
+  img {
+    max-width: 80%;
+    max-height: 300px;
+    margin: 0 auto;
+    display: block;
+  }
+  h1 {
+    font-size: 2.0rem;
+    font-weight: 800;
+    color: @fontColorBlue;
+  }
+  h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: @fontColorBlue;
+  }
+  h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: @fontColorB;
+  }
+  code {
+    font-family: "Comic Sans MS", "Microsoft Yahei", -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
+    font-weight: bold;
+  }
+  p {
+    font-size: 1rem;
+    color: @fontColorB;
+    line-height: 2;
+    code {
+      background: #222;
+      padding: .2em .4em;
+      border-radius: 6px;
+      color: @fontColorW;
+      margin: 0 .4em;
+    }
+  }
+  pre {
+    font-size: 1rem;
+    margin: 0;
+    color: #f2f2f2;
+    padding: 1.2rem 1.4rem;
+    overflow: auto;
+    line-height: 1.2;
+    background-color: #222;
+    border-radius: 3px;
+    code {
+      color: @fontColorW;
+      margin: 0;
+    }
+  }
+  ul {
+    margin-left: 2em;
+    list-style-type: disc;
+    .nh-article-list-head {
+      margin-left: -2em;
+      h3 {
+        margin: .2em 0;
+        color: @fontColorW;
+      }
+    }
+    li {
+      font-size: 1rem;
+      a {
+        &:hover {
+          color: @fontColorRedCurrent;
+        }
+      }
+    }
+  }
+  blockquote {
+    font-size: 1rem;
+    margin: 20px 0;
+    padding: 0 1.4em;
+    color: @fontColorGreyGreen;
+    border-left: 6px solid #dfe2e5;
+    line-height: 2em;
+    code {
+      background: #222;
+      color: @fontColorW;
+      padding: .2em .4em;
+      border-radius: 6px;
+      margin: 0 .4em;
+    }
+  }
+}
