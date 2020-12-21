@@ -9,8 +9,7 @@ import Container from '@material-ui/core/Container';
 import { deepOrange } from '@material-ui/core/colors';
 
 const sections = [
-  { title: "Top", url: '/' },
-  { title: 'Zo', url: '/zo/zo' },
+  { title: "Music", url: '/' },
   { title: "Blog", url: '/nekohand/blog' },
   { title: 'About', url: '/about' },
 ];

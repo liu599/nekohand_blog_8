@@ -5,7 +5,15 @@ import Grid from '@material-ui/core/Grid';
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from "@material-ui/core/Typography";
-
+import {
+  Link,
+  connect,
+  getLocale,
+  setLocale,
+  useIntl,
+  history,
+  Helmet,
+} from 'umi';
 import { Column, Row, Item } from '@mui-treasury/components/flex';
 
 const artistData = [
@@ -13,6 +21,7 @@ const artistData = [
     name: "寺川爱美",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
     desc: "声优歌手",
+    search: "Aimi",
     id: 1,
     song: 30,
   },
@@ -20,20 +29,23 @@ const artistData = [
     name: "水濑祈",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
     desc: "声优歌手",
+    search: "水濑祈",
     id: 2,
     song: 30,
   },
   {
-    name: "内田真礼",
+    name: "BanG Dream! Girls Band Party Cover Songs",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
-    desc: "声优歌手",
+    desc: "Various",
+    search: "BanG Dream! Girls Band Party Cover Songs",
     id: 11,
     song: 30,
   },
   {
-    name: "伊藤美来",
+    name: "Pastel*Palettes",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
-    desc: "声优歌手",
+    desc: "声优女子乐团",
+    search: "Pastel*Palettes",
     id: 10,
     song: 30,
   },
@@ -41,6 +53,7 @@ const artistData = [
     name: "TrySail",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
     desc: "声优组合",
+    search: "TrySail",
     id: 9,
     song: 30,
   },
@@ -48,20 +61,23 @@ const artistData = [
     name: "Poppin'Party",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
     desc: "声优女子乐团",
+    search: "Poppin'Party",
     id: 6,
     song: 30,
   },
   {
-    name: "Peaky P-key",
+    name: "RAISE A SUILEN",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
     id: 4,
-    desc: "声优女子DJ组合",
+    search: "RAISE A SUILEN",
+    desc: "声优女子乐团",
     song: 30,
   },
   {
-    name: "小仓唯",
+    name: "偶像大师 Million Live",
     avatar: "https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg",
     id: 5,
+    search: "Million Stars from Idol M@Ster",
     desc: "声优歌手",
     song: 30,
   }
@@ -98,7 +114,13 @@ export default function NestedGrid() {
                 <Grid item xs={3} key={item.id} style={{padding: 16}} >
                     <Avatar alt={item.name} src={item.avatar} className={classes.large} style={{padding: 8}} />
                     <Typography  variant={"h6"} align={"center"} style={{marginBottom: 4}}>
-                      {item.name}
+                      <Link to={{
+                        pathname: '/zo/zo',
+                        query: {
+                          art: item.id,
+                          search: encodeURIComponent(item.search),
+                        }
+                      }} >{item.name}</Link>
                     </Typography>
                     <Typography variant={"subtitle2"} paragraph align={"center"}>
                       {item.desc}

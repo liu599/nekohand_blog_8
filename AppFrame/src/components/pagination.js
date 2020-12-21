@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
 import {
   Link,
@@ -40,9 +39,9 @@ export default function PaginationControlled(props) {
     });
   };
 
-  useEffect(() => {
-    console.log('mount pager!');
-  }, []);
+  // useEffect(() => {
+  //   console.log('mount pager!');
+  // }, []);
 
   // useEffect(() => {
   //   count = Math.floor(pager.total/pager.pageSize)

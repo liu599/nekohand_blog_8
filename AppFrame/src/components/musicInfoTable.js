@@ -14,30 +14,33 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(name, calories) {
-  return { name, calories };
-}
+// function createData(name, calories) {
+//   return { name, calories };
+// }
+//
+// const rows = [
+//   createData('レーベル', "KING RECORDS"),
+//   createData('配信開始日', "2019.04.10"),
+//   createData('収録曲数', "全12曲"),
+//   createData('収録時間', "56:12"),
+// ];
 
-const rows = [
-  createData('レーベル', "KING RECORDS"),
-  createData('配信開始日', "2019.04.10"),
-  createData('収録曲数', "全12曲"),
-  createData('収録時間', "56:12"),
-];
-
-export default function BasicTable() {
+export default function BasicTable(props) {
   const classes = useStyles();
+  const {data} = props
 
   return (
     <TableContainer>
       <Table className={classes.table} size="small" aria-label="simple table">
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
+          {data && data.map((row) => (
+            <TableRow key={row.item}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.item}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
+              <TableCell align="right">
+                {row.desc}
+              </TableCell>
             </TableRow>
           ))}
           <TableRow key={"star"}>
@@ -45,8 +48,10 @@ export default function BasicTable() {
               评价
             </TableCell>
             <TableCell align="right">
-              <StarIcon style={{size: "0.875rem"}}/><StarIcon style={{size: "0.875rem"}} />
-              <StarIcon  style={{size: "0.875rem"}}/><StarIcon style={{size: "0.875rem"}}/>
+              <StarIcon style={{size: "0.875rem"}}/>
+              <StarIcon style={{size: "0.875rem"}} />
+              <StarIcon  style={{size: "0.875rem"}}/>
+              <StarIcon style={{size: "0.875rem"}}/>
               <StarIcon  style={{size: "0.875rem"}} />
             </TableCell>
           </TableRow>

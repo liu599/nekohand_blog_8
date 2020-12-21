@@ -64,3 +64,22 @@ export function arrayToTree(array, id = 'id', pid = 'pid', children = 'children'
   });
   return result;
 }
+
+export function shuffleArray(arr) {
+  // Fisher-Yates
+  for (let i = 1; i < arr.length; i++) {
+    const random = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[random]] = [arr[random], arr[i]];
+  }
+  return arr
+}
+
+export function findKeyNameInArray(keyName, search, arr) {
+  for (let i = 0; i < arr.length; i++) {
+    if(arr[i].hasOwnProperty(keyName)) {
+      if (arr[i][keyName] === search) {
+        return arr[i];
+      }
+    }
+  }
+}

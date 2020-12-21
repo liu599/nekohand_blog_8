@@ -32,7 +32,7 @@ function a11yProps(index) {
   };
 }
 
-export default function DisabledTabs() {
+export default function FormalTabs(props) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -49,8 +49,10 @@ export default function DisabledTabs() {
         variant="fullWidth"
         aria-label="disabled tabs example"
       >
-        <Tab label="アーティスト情報" {...a11yProps(0)}/>
-        <Tab label="歌詞" {...a11yProps(1)} />
+        {props.album && <Tab label="アルバム情報" {...a11yProps(0)}/>}
+        {props.album && <Tab label="Zo アルバム" {...a11yProps(1)}/>}
+        {props.artist && <Tab label="アーティスト情報" {...a11yProps(0)}/>}
+        {props.artist && <Tab label="Zo アーティスト" {...a11yProps(2)}/>}
       </Tabs>
       <TabPanel value={value} index={0} style={{overflowY: "auto", maxHeight:450}}>
         <Typography variant="body1" gutterBottom paragraph>
@@ -59,9 +61,6 @@ export default function DisabledTabs() {
           2015年9月には、大ヒットアニメ「あの日見た花の名前を僕達はまだ知らない。」のスタッフが再集結したことでも話題となった劇場版アニメ「心が叫びたがってるんだ。」の主人公・成瀬順役の声優を務め、テレビや雑誌など多くのメディアで注目を集めた。2016年3月には声優アワード・主演女優賞を受賞。
           また、これまで歌ってきたキャラクターソングやアニメ・ゲームイベントでのパフォーマンスで、ジャンルを選ばずあらゆる楽曲を歌いこなす歌唱力が多くのアニメ・声優ファンを魅了し、歌手としての活動にも大きな期待が寄せられていた。
           2015年12月2日、二十歳の誕生日をむかえる記念すべき日に、待望の歌手デビューを果たした。
-        </Typography>
-
-        <Typography variant="body1" gutterBottom>
           ◆主な出演作品（声優）◆
           ・世紀末オカルト学院 岡本あかり 役（デビュー作品）
           ・恋愛ラボ 棚橋鈴音 役
