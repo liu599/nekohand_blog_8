@@ -27,9 +27,30 @@ function Chron(props) {
     fetchWidget();
   }, []);
 
+  const clickHandler = (e) => {
+    // TODO: This is a wr for get tag name from html node
+    let tagName = e.target.innerHTML.replace(/<\/?[^>]*>/g, '');
+    console.log(tagName, "123")
+    let subMenus = [];
+    props.data.chron.forEach((chron) => {
+      subMenus.push(...chron.subMenus);
+    });
+    let tag = subMenus.filter(item => item.label === tagName);
+    if (tag.length > 0) {
+      history.push({
+        pathname: "/nekohand/blog",
+        query: {
+          d: tag[0].label,
+          t: tag[0].query,
+          pn: 1,
+        }
+      })
+    }
+
+  }
 
   return (
-    <div>
+    <div onClick={clickHandler}>
       {/*<Menu menus={getMenus()} />*/}
       {props.data.chron &&
       <Menu menus={props.data.chron} />}

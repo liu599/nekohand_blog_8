@@ -66,6 +66,9 @@ export function arrayToTree(array, id = 'id', pid = 'pid', children = 'children'
 }
 
 export function shuffleArray(arr) {
+  if (arr.length < 13) {
+    return arr;
+  }
   // Fisher-Yates
   for (let i = 1; i < arr.length; i++) {
     const random = Math.floor(Math.random() * (i + 1));

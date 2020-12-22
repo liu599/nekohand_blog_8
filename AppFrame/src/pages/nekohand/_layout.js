@@ -7,8 +7,6 @@ import Categories from '../../components/nestedCategories/Categories'
 import Chron from '../../components/nestedCategories/Chron'
 import Ad from '../../components/ads'
 
-
-
 const useStyles = makeStyles({
   root: {
     width: '100%',

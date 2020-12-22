@@ -11,6 +11,7 @@ import {
   Helmet,
 } from 'umi';
 
+const queryString = require('query-string');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,12 +31,13 @@ export default function PaginationControlled(props) {
   let count = 1;
   const handleChange = (event, value) => {
     setPage(value);
-    console.log("handle change")
+    console.log("handle change", window.location);
+    let query = queryString.parse(window.location.search);
+    // query.hasOwnProperty = Object.hasOwnProperty;
+    query.pn = value;
     history.push({
       pathname: '/nekohand/blog',
-      query: {
-        pn: value,
-      }
+      query,
     });
   };
 
@@ -52,7 +54,7 @@ export default function PaginationControlled(props) {
 
   return (
     <div className={classes.root}>
-      { pager.pageNum && <Pagination count={Math.floor(pager.total/pager.pageSize)}
+      { pager.pageNum && <Pagination count={Math.ceil(pager.total/pager.pageSize)}
                     page={pager.pageNum}
                     showFirstButton
                     showLastButton

@@ -6,6 +6,16 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Skeleton from '@material-ui/lab/Skeleton';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
+import {
+  Link,
+  connect,
+  getLocale,
+  setLocale,
+  useIntl,
+  history,
+  Helmet,
+} from 'umi';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +54,13 @@ export default function TitlebarGridList(props) {
               title={tile.album}
               subtitle={<span>by: {tile.artist}</span>}
               actionIcon={
-                <IconButton aria-label={`info about ${tile.album}`} className={classes.icon}>
+                <IconButton
+                  aria-label={`info about ${tile.album}`}
+                  className={classes.icon}
+                  onClick={() => {
+                    history.push(`/zo/zo?alb=1&search=${tile.album}`)
+                  }}
+                >
                   <InfoIcon />
                 </IconButton>
               }

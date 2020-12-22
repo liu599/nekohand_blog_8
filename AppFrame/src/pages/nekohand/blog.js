@@ -1,6 +1,7 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import SentimentVeryDissatisfiedSharpIcon from '@material-ui/icons/SentimentVeryDissatisfiedSharp';
 import {
   Link,
   connect,
@@ -26,29 +27,52 @@ const queryString = require('query-string');
 
 function Blog(props) {
   const classes = useStyles();
+  const [cat, setCat] = useState("default")
 
   let {data, location} = props;
   console.log(location);
 
   function fetchPosts() {
     const parsed = queryString.parse(props.history.location.search);
+    let urlOption = {}
     // console.log(parsed);
     parsed.hasOwnProperty = Object.hasOwnProperty;
     if (!parsed.hasOwnProperty("pn")) {
       parsed.pn = 1
     }
 
-    props.dispatch({
-      type: 'nekohandBlog/fetchPosts',
-      payload: {
-        urlTag: 'nekohandBlog.posts',
-        urlOption: {},
-        queryData: {
-          pageNumber: parsed.pn,
-          pageSize: 10,
-        },
-      }
-    })
+    if (parsed.hasOwnProperty("cid")) {
+      urlOption.suffix = parsed.cid;
+      setCat(parsed.cname);
+    }
+
+    if (parsed.hasOwnProperty("t")) {
+      setCat(parsed.d);
+      props.dispatch({
+        type: 'nekohandBlog/fetchPosts',
+        payload: {
+          urlTag: 'nekohandBlog.postTime',
+          urlOption,
+          queryData: {
+            pageNumber: parsed.pn,
+            pageSize: 10,
+            t: parseInt(parsed.t,10)/1000,
+          },
+        }
+      })
+    } else {
+      props.dispatch({
+        type: 'nekohandBlog/fetchPosts',
+        payload: {
+          urlTag: 'nekohandBlog.posts',
+          urlOption,
+          queryData: {
+            pageNumber: parsed.pn,
+            pageSize: 10,
+          },
+        }
+      })
+    }
   }
 
 
@@ -62,9 +86,20 @@ function Blog(props) {
     console.log('mount it!');
   }, []);
 
+  if (props.data && props.data.posts.length === 0) {
+    return (
+      <div className={classes.root}>
+        <Typography variant="h3" gutterBottom>
+          There is no posts here.
+          <SentimentVeryDissatisfiedSharpIcon fontSize={"inherit"} />
+        </Typography>
+      </div>
+    )
+  }
+
   return  <div className={classes.root}>
-    <Typography variant="h4" gutterBottom>
-      Posts
+    <Typography variant="h4" paragraph style={{marginBottom: 32}} color={"primary"}>
+      { cat === "default" ? "Posts" : (cat.includes("-") ? `Posts in ${cat}` : `Posts on Category "${cat}"`)}
     </Typography>
     {props.data &&
       <TopPage {...props.data} />

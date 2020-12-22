@@ -9,55 +9,52 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
 const columns = [
-  { id: 'name', label: 'No.', maxWidth: 60 },
-  { id: 'code', label: 'Title', minWidth: 100 },
+  { id: 'FileNo', label: 'No.', maxWidth: 60 },
+  { id: 'name', label: 'Name', maxWidth: 60,
+    align: 'center' },
+  { id: 'album', label: 'Album', minWidth: 100,
+    align: 'center' },
   {
-    id: 'population',
+    id: 'quality',
     label: 'Quality',
     maxWidth: 60,
-    align: 'right',
+    align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: 'size',
-    label: 'Artist',
+    id: 'issueDate',
+    label: 'Issue Date',
     minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
-  {
-    id: 'density',
-    label: 'Manipulate',
-    minWidth: 170,
-    align: 'right',
+    align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   },
 ];
 
-function createData(name, code, population, size) {
-  let density = "Manu";
-  return { name, code, population, size, density };
-}
 
-const rows = [
-  createData('1', 'Starry Wish', "HQ", "水濑祈"),
-  createData('2', 'Starry Wish', "HQ", "水濑祈"),
-  createData('3', 'Starry Wish', "HQ", "水濑祈"),
-  createData('4', 'Starry Wish', "HQ", "水濑祈"),
-  createData('5', 'Starry Wish', "HQ", "水濑祈")
-];
-
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
   container: {
-    maxHeight: 440,
+    maxHeight: 500,
+    Height: 500,
+    minHeight: 300,
   },
-});
+  btnGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -71,7 +68,7 @@ export default function StickyHeadTable() {
     setPage(0);
   };
 
-  // console.log(columns, "blablabla")
+  console.log(props.data, "blablabla")
 
   return (
     <Paper className={classes.root}>
@@ -88,12 +85,19 @@ export default function StickyHeadTable() {
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell
+                key="Manu"
+                align="center"
+                style={{ minWidth: 120 }}
+              >
+                Operation
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+            {props.data && props.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.FileNo}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
@@ -102,6 +106,14 @@ export default function StickyHeadTable() {
                       </TableCell>
                     );
                   })}
+                  <TableCell align={"right"}>
+                    <div className={classes.btnGroup}>
+                      <ButtonGroup color="primary" aria-label="outlined primary button group">
+                        <Button>Add to list</Button>
+                        <Button color={"secondary"}>Delete from list</Button>
+                      </ButtonGroup>
+                    </div>
+                  </TableCell>
                 </TableRow>
               );
             })}
@@ -111,7 +123,7 @@ export default function StickyHeadTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={props.data.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}

@@ -50,8 +50,8 @@ const MusicListItemDemo = React.memo(function MusicListItem() {
             </div>
           </Item>
           <Info useStyles={useMusicInfoStyles} minWidth={0}>
-            <InfoTitle>Money Longer</InfoTitle>
-            <InfoSubtitle>Lil Uzi Vert</InfoSubtitle>
+            <InfoTitle>Markup 01</InfoTitle>
+            <InfoSubtitle>High Frequency</InfoSubtitle>
           </Info>
           <Item position={'right'}>
             <IconButton size={'small'}>
@@ -66,11 +66,11 @@ const MusicListItemDemo = React.memo(function MusicListItem() {
             </div>
           </Item>
           <Info useStyles={useMusicInfoStyles} minWidth={0}>
-            <InfoTitle>Wait For You</InfoTitle>
-            <InfoSubtitle>Jake Miller</InfoSubtitle>
-            <InfoCaption className={styles.text}>
-              <PlayCircleFilled /> playing...
-            </InfoCaption>
+            <InfoTitle>Markup 02</InfoTitle>
+            <InfoSubtitle>Million Stars</InfoSubtitle>
+            {/*<InfoCaption className={styles.text}>*/}
+            {/*  <PlayCircleFilled /> playing...*/}
+            {/*</InfoCaption>*/}
           </Info>
           <Item position={'right'}>
             <IconButton size={'small'}>
@@ -78,38 +78,8 @@ const MusicListItemDemo = React.memo(function MusicListItem() {
             </IconButton>
           </Item>
         </Row>
-        <Row mt={2}>
-          <Item>
-            <div className={avatarStyles.root}>
-              <Avatar src={src} />
-            </div>
-          </Item>
-          <Info useStyles={useMusicInfoStyles} minWidth={0}>
-            <InfoTitle>Money Longer</InfoTitle>
-            <InfoSubtitle>Lil Uzi Vert</InfoSubtitle>
-          </Info>
-          <Item position={'right'}>
-            <IconButton size={'small'}>
-              <MoreHoriz />
-            </IconButton>
-          </Item>
-        </Row>
-        <Row mt={2}>
-          <Item>
-            <div className={avatarStyles.root}>
-              <Avatar src={src} />
-            </div>
-          </Item>
-          <Info useStyles={useMusicInfoStyles} minWidth={0}>
-            <InfoTitle>Money Longer</InfoTitle>
-            <InfoSubtitle>Lil Uzi Vert</InfoSubtitle>
-          </Info>
-          <Item position={'right'}>
-            <IconButton size={'small'}>
-              <MoreHoriz />
-            </IconButton>
-          </Item>
-        </Row>
+
+
       </Column>
     </>
   );

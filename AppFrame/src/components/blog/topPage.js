@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Timeline from '@material-ui/lab/Timeline';
 import TimelineItem from '@material-ui/lab/TimelineItem';
@@ -7,8 +7,7 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
-import LaptopMacIcon from '@material-ui/icons/LaptopMac';
-import Paper from '@material-ui/core/Paper';
+import OutdoorGrillSharpIcon from '@material-ui/icons/OutdoorGrillSharp';
 import Typography from '@material-ui/core/Typography';
 
 import { convertTimeStamp } from "../../utils/array";
@@ -45,10 +44,10 @@ export default function CustomizedTimeline(props) {
             </Typography>
           </TimelineOppositeContent>
           <TimelineSeparator>
-            <TimelineDot color="primary">
-              <LaptopMacIcon />
+            <TimelineDot color="inherit">
+              <OutdoorGrillSharpIcon />
             </TimelineDot>
-            {index !== 9 && <TimelineConnector />}
+            {index !== (props.posts.length-1) && <TimelineConnector />}
           </TimelineSeparator>
           <TimelineContent  className={classes.timeLineContent}>
             <Typography variant="h6" component="h1">

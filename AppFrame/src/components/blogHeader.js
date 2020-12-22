@@ -119,6 +119,26 @@ function PrimarySearchAppBar(props) {
     </Menu>
   );
 
+  React.useEffect(() => {
+    if (window.location.pathname.includes("post")) {
+      console.log("have post");
+      setTabIndex(1)
+      return
+    }
+
+    if (window.location.pathname.includes("zo")) {
+      setTabIndex(0)
+      return
+    }
+
+    let index = props.sections.findIndex(item => item.url === window.location.pathname)
+
+    if (index < 0) {
+      index = 0
+    }
+    setTabIndex(index);
+  }, [window.location.pathname])
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
+import lodash from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import DefaultList from '../../components/musicListDefault';
+import ArtistList from '../../components/musicArtist';
+import ArlbumList from '../../components/musicAlbum';
 import CardGallery from '../../components/gallery/gallery';
 import MusicInfoTable from '../../components/musicInfoTable'
 
@@ -13,7 +15,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 
 import Chip from '@material-ui/core/Chip';
 
-import {findKeyNameInArray} from '../../utils/array';
+import {findKeyNameInArray, shuffleArray} from '../../utils/array';
 
 import {
   Link,
@@ -46,31 +48,40 @@ function createTableData(item, desc) {
   return { item, desc };
 }
 
-const mockData = [{
-  FileNo: 1470,
-  album: " MILLION THE@TER GENERATION 17 STAR ELEMENTS",
-  artist: "Million Stars from Idol M@Ster",
-  cover: "https://file.ecs32.top/data/music/M/[2017-2019] MILLION THE@TER GENERATION/[2019.05.29] MILLION THE@TER GENERATION 17 STAR ELEMENTS/cover.jpg",
-  createdAt: 0,
-  fileId: "5e11f04658adfe35dea8b555",
-  filetype: "mp3",
-  issueDate: "2019.05.29",
-  lrc: null,
-  modifiedAt: 0,
-  name: "01. Episode. Tiara",
-  url: "https://file.ecs32.top/data/music/M/[2017-2019] MILLION THE@TER GENERATION/[2019.05.29] MILLION THE@TER GENERATION 17 STAR ELEMENTS/5e11f04658adfe35dea8b555__01. Episode. Tiara.mp3",
-}];
+function createArtistData(FileNo, name, album, quality, issueDate) {
+  return { FileNo, name, album, quality, issueDate };
+}
+
+function makeArtistTable(renderData) {
+  let quality = "MP3"
+  let {FileNo, name, album, issueDate} = renderData;
+  album = `《${album}》`;
+  if (name.includes("HQ")) {
+    quality = "HQ-FLAC"
+  }
+  return [
+    createArtistData(FileNo, name, album, quality, issueDate)
+  ]
+}
+
+function makeArtistWholeTable(renderData) {
+  let ret = [];
+  let firstItem = makeArtistTable(renderData);
+  renderData.audioList.forEach(item => {
+    ret = ret.concat(makeArtistTable(item));
+  })
+  ret = [...firstItem, ...ret];
+  return ret;
+}
 
 function Zo(props) {
   const classes = useStyles();
   const [artist, setArtist] = useState("default");
   const [album, setAlbum] = useState("default");
-  const [search, setSearchString] = useState("default");
   const [renderData, setRenderData] = useState([]);
 
   function updateData() {
     const parsed = queryString.parse(props.history.location.search);
-    console.log(parsed);
     parsed.hasOwnProperty = Object.hasOwnProperty;
     let searchKeyName = decodeURIComponent(parsed.search);
     let searchResult = [];
@@ -78,15 +89,13 @@ function Zo(props) {
       setArtist(parsed.art);
       searchResult = findKeyNameInArray("artist", searchKeyName, props.music.artists)
       setRenderData(searchResult)
-      console.log(searchResult, "result")
     }
     if(parsed.hasOwnProperty("alb")) {
       setAlbum(parsed.alb);
       searchResult = findKeyNameInArray("album", searchKeyName, props.music.albums)
+      console.log("search result", searchResult)
       setRenderData(searchResult)
-      console.log(searchResult, "result")
     }
-    console.log(renderData, "renderData");
   }
 
   function makeTableData(lg) {
@@ -95,10 +104,23 @@ function Zo(props) {
     ]
   }
 
+
+
+
+  function selectRandomMusic(audioList) {
+    let tmp = lodash.cloneDeep(audioList);
+    if (audioList.length > 12) {
+      return shuffleArray(tmp).slice(0, 12);
+    }
+    return shuffleArray(tmp);
+  }
+
   useEffect(() => {
+    setArtist("default");
+    setAlbum("default");
     updateData();
-    console.log('mount artist!');
-  }, []);
+    console.log('history change', renderData);
+  }, [props.history.location.search]);
 
   return (
     <div className={classes.root}>
@@ -110,17 +132,18 @@ function Zo(props) {
                 <Grid item lg={8}>
                   <GridList cellHeight={300} cols={5}>
                     <GridListTile key="0345" cols={2}>
+                      {renderData.cover &&
                       <img style={{width: 298, height: 298, padding: 1, border: "1px solid red", boxShadow: "1px 1px 3px #9e9e9e"}}
-                           src="https://file.ecs32.top/data%2Fmusic%2FArtist%2FInoriMinase%2F%5B2019.04.10%5DCatch%20the%20Rainbow%21%2Fcover.jpg" alt=""/>
+                           src={renderData.cover} alt=""/>}
                     </GridListTile>
                     <GridListTile key="0348" cols={3} style={{paddingLeft: 12}}>
                       <Typography color="primary" variant="h5">
-                        Catch the Rainbow！
+                        {renderData.album}
                       </Typography>
                       <Typography variant="subtitle1" paragraph>
-                        水瀬いのり
+                        Album
                       </Typography>
-                      <MusicInfoTable />
+                      <MusicInfoTable data={makeTableData(renderData.audioList.length+1)} />
                     </GridListTile>
                   </GridList>
                   <Typography variant="h6" paragraph style={{marginTop: 32}}>
@@ -142,7 +165,7 @@ function Zo(props) {
           <Typography variant="h6" paragraph style={{marginTop: 32}}>
             Content
           </Typography>
-          <DefaultList />
+          <ArlbumList  data={makeArtistWholeTable(renderData)} />
         </>
       }
       {artist !== "default" &&
@@ -188,19 +211,23 @@ function Zo(props) {
           <Typography variant="h6" paragraph style={{marginTop: 32}}>
             Content
           </Typography>
-          <DefaultList />
+          <ArtistList data={makeArtistWholeTable(renderData)} />
         </>
       }
-      <Typography variant="h6" paragraph style={{marginTop: 32}}>
-        Related Music
-      </Typography>
-      <CardGallery  data={mockData}/>
+      {(artist !== "default" || album !== "default") &&
+        <>
+          <Typography variant="h6" paragraph style={{marginTop: 32}}>
+            Other Music
+          </Typography>
+          <CardGallery  data={selectRandomMusic(props.music.albums)}/>
+        </>
+      }
+
     </div>
   )
 }
 
 function mapStateToProps(state) {
-  console.log("state", state);
   return {
     music: state.nekoMusic,
   };
