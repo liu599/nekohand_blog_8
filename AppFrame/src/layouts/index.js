@@ -1,12 +1,15 @@
 import React from 'react';
 import "@/assets/material-font.css"
 import "@/assets/icon.css";
-import Header from '@/components/blogHeader';
-import StickyFooter from '@/components/stickyFooter';
+import Header from '../components/blogHeader';
+import StickyFooter from '../components/stickyFooter';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { deepOrange } from '@material-ui/core/colors';
+
+import { history } from 'umi';
+
 
 const sections = [
   { title: "Music", url: '/' },
@@ -83,12 +86,21 @@ const useStyles = makeStyles((theme) => ({
 function BasicLayout(props) {
 
   const classes = useStyles();
+
+  const unlisten = history.listen((location, action) => {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+  });
+
+  unlisten();
+
   return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Header title={"Nekomusic"} sections={sections} />
         <Container maxWidth="lg" className={classes.root}>
-          {props.children}
+          {
+            props.children
+          }
         </Container>
         {StickyFooter()}
       </ThemeProvider>

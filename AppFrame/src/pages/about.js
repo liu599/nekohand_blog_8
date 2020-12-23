@@ -39,7 +39,7 @@ export default function About() {
         Announcement
       </Typography>
       <Typography variant="body1" gutterBottom paragraph>
-        Personal Website. Do <b>NOT</b> provide online music resource with any <b>UNAUTHORIZED</b> person.
+        Personal Website.
       </Typography>
       <Typography variant="h6" gutterBottom paragraph>
         Contact
@@ -75,6 +75,26 @@ export default function About() {
       <Typography variant="body1" gutterBottom paragraph>
         You should have received a copy of the GNU General Public License
         along with this program.  If not, see http://www.gnu.org/licenses.
+      </Typography>
+      <Typography variant="h6" gutterBottom paragraph>
+        History
+      </Typography>
+      <Typography component={"pre"} paragraph>
+        {`
+        Wordpress
+        2014.09.28 Version 1.0 Scarlet
+        2015.01.21 Version 2.0 Scarlet Gai 2
+        2015.03.20 Version 3.0 Scarlet Gai 3
+        2015.06.20 Version 4.0 White Day
+        Jekyll Static
+        2017.02.12 Version 5.0 Nekohand's Jekyll Blog
+        ReactJS
+        2017.11.12 Version 6.0 Poppin' Party with React
+        2018.10.07 Version 7.0 Kasumi with UmiJS
+        2019.09.14 Version 7.2 Kasumi-Symphjoy with React-Symphjoy
+        2020.10.03 Version 7.4 Kasumi-Symphjoy with React-Symphjoy
+        `}
+
       </Typography>
     </div>
   );

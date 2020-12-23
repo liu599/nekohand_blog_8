@@ -188,11 +188,11 @@ function PrimarySearchAppBar(props) {
         </div>
         <div className={classes.sectionDesktop}>
           <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
+            <Badge badgeContent={252} color="secondary">
               <FlareOutlinedIcon />
             </Badge>
           </IconButton>
-          <IconButton aria-label="show 4 new mails" color="inherit">
+          {/*<IconButton aria-label="show 4 new mails" color="inherit">
             <Badge badgeContent={4} color="secondary">
               <MailIcon />
             </Badge>
@@ -211,7 +211,7 @@ function PrimarySearchAppBar(props) {
             color="inherit"
           >
             <AccountCircle />
-          </IconButton>
+          </IconButton>*/}
         </div>
       </Toolbar>
     </AppBar>

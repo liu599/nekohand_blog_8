@@ -16,6 +16,10 @@ import {
 import TopPage from "../../components/blog/topPage";
 import Pagination from "../../components/pagination";
 
+import {useSelector,useDispatch} from 'dva';
+import Loading from '../../components/pageLoading/loading'
+
+
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -29,8 +33,12 @@ function Blog(props) {
   const classes = useStyles();
   const [cat, setCat] = useState("default")
 
-  let {data, location} = props;
-  console.log(location);
+  const {loading,nekohandBlog} = useSelector(stores => ({
+    loading: stores.loading,
+    nekohandBlog: stores.loading,
+  }))
+
+
 
   function fetchPosts() {
     const parsed = queryString.parse(props.history.location.search);
@@ -98,22 +106,25 @@ function Blog(props) {
   }
 
   return  <div className={classes.root}>
-    <Typography variant="h4" paragraph style={{marginBottom: 32}} color={"primary"}>
-      { cat === "default" ? "Posts" : (cat.includes("-") ? `Posts in ${cat}` : `Posts on Category "${cat}"`)}
-    </Typography>
-    {props.data &&
-      <TopPage {...props.data} />
-    }
-    {(props.data && props.data.pager) &&
-      <div style={{textAlign: "center"}}>
-        <Pagination pager={props.data.pager} />
-      </div>
+    {loading.effects["nekohandBlog/fetchPosts"] ? <Loading /> :
+      <>
+        <Typography variant="h4" paragraph style={{marginBottom: 32}} color={"primary"}>
+          { cat === "default" ? "Posts" : (cat.includes("-") ? `Posts in ${cat}` : `Posts on Category "${cat}"`)}
+        </Typography>
+        {props.data &&
+          <TopPage {...props.data} />
+        }
+        {(props.data && props.data.pager) &&
+          <div style={{textAlign: "center"}}>
+            <Pagination pager={props.data.pager} />
+          </div>
+        }
+      </>
     }
   </div>
 }
 
 function mapStateToProps(state) {
-  console.log("state", state);
   return {
     data: state.nekohandBlog,
   };

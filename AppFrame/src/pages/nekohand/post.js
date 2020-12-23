@@ -13,6 +13,9 @@ import {
   Helmet,
 } from 'umi';
 
+import {useSelector,useDispatch} from 'dva';
+import Loading from '../../components/pageLoading/loading'
+
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -25,6 +28,12 @@ const queryString = require('query-string');
 function Post(props) {
 
   let {data} = props;
+
+  const {loading,nekohandBlog} = useSelector(stores => ({
+    loading: stores.loading,
+    nekohandBlog: stores.loading,
+  }))
+
   function fetchPost(){
     const parsed = queryString.parse(props.history.location.search);
     console.log(props, parsed, "parsed");
@@ -52,28 +61,31 @@ function Post(props) {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h4" gutterBottom>
-        {data.currentPost.title}
-      </Typography>
-      <Typography variant="h6" gutterBottom paragraph>
-        {convertTimeStamp(data.currentPost.createdAt)}, published by Tokei, &nbsp;
-        <Link to={`/nekohand/blog`}>
-           Return
-        </Link>
-      </Typography>
-     {/* <Typography variant="h5" gutterBottom>
+      {loading.effects["nekohandBlog/fetchAPost"]
+        ? <Loading />
+        : <>
+          <Typography variant="h4" gutterBottom>
+            {data.currentPost.title}
+          </Typography>
+          <Typography variant="h6" gutterBottom paragraph>
+            {convertTimeStamp(data.currentPost.createdAt)}, published by Tokei, &nbsp;
+            <Link to={`/nekohand/blog`}>
+              Return
+            </Link>
+          </Typography>
+          {/* <Typography variant="h5" gutterBottom>
         {data.currentPost.title}
       </Typography>
       <Typography variant="h6" gutterBottom>
         {data.currentPost.title}
       </Typography>*/}
-        <div className={styles.articleBody} dangerouslySetInnerHTML={createBody()} />
+          <div className={styles.articleBody} dangerouslySetInnerHTML={createBody()} />
+        </>}
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  console.log("state", state);
   return {
     data: state.nekohandBlog,
   };

@@ -1,5 +1,5 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import EmojiNatureSharpIcon from '@material-ui/icons/EmojiNatureSharp';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -10,10 +10,13 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary">
       {'Designed by Tokei © '}
       <Link color="inherit" href="https://blog.ecs32.top/" target={"_blank"}>
-        NekoMusic 公式サイト委員會
+        Nekohand 公式サイト委員會
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
+      <Link color="inherit" href="https://tae.ecs32.top/" target={"_blank"}>
+        <EmojiNatureSharpIcon fontSize={"inherit"} />
+      </Link>{' '}
     </Typography>
   );
 }
@@ -42,9 +45,12 @@ export default function StickyFooter(props) {
     <footer className={classes.footer}>
       <Container maxWidth="sm">
         <Typography variant="subtitle1">
-          Nekohand - Website for daily.
+          Nekohand/EC Site - Website for daily.
         </Typography>
         <Copyright />
+        <Typography variant="body2" color="textSecondary">
+          {`Publish Version: ${APP_VERSION}.${APP_SHOW_TIME}`}
+        </Typography>
       </Container>
     </footer>
   );

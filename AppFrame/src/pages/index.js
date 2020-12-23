@@ -25,6 +25,9 @@ import Topic from '../components/topic/topic';
 import ArtistGrids from '../components/avaterGallery/avater'
 import Ranking from '../components/ranking/ranking'
 
+import {useSelector,useDispatch} from 'dva';
+import Loading from '../components/pageLoading/loading'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function topPage(props) {
+
+  const {loading,nekoMusic} = useSelector(stores => ({
+    loading: stores.loading,
+    nekoMusic: stores.loading,
+  }))
 
   function fetchMusic(){
     props.dispatch({
@@ -64,75 +72,80 @@ function topPage(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Grid container spacing={1} style={{paddingBottom: 42}}>
-        <Grid item lg={12}>
-            <Grid container justify="center" spacing={4}>
-              <Grid item lg={8} style={{paddingTop: 60}}>
-                <Card className={classes.cardRoot}>
-                    <CardActionArea>
-                      <CardMedia
-                        component='img' // add this line to use <img />
-                        image={require("../assets/007MwxDlgy1g5vymokkpkj30rw0ietc9.jpg")}
-                        title="Contemplative Reptile"
-                      />
-                      <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                          プリンセスコネクト！Re:Dive
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p" paragraph>
-                          前作での最終ストーリー、ユイをプリンセスとして展開したルートに沿っており、
-                          Re:Diveにおいてはプロローグ内で覇瞳皇帝の最後の逆襲に敗れて意識が無くなった時点から物語は
-                          始まる。
-                        </Typography>
-                        <Typography variant="button" color="textSecondary" component="p">
-                          Read more...
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
-              </Grid>
-              <Grid item lg={4} style={{paddingTop: 60}}>
-                <Typography variant="h5">
-                  今日推荐
-                </Typography>
-                <Ranking />
+      {
+        loading.effects["nekoMusic/fetchMusic"] ? <Loading />
+          : <>
+            <Grid container spacing={1} style={{paddingBottom: 42}}>
+
+              <Grid item lg={12}>
+                <Grid container justify="center" spacing={4}>
+                  <Grid item lg={8} style={{paddingTop: 60}}>
+                    <Card className={classes.cardRoot}>
+                      <CardActionArea>
+                        <CardMedia
+                          component='img' // add this line to use <img />
+                          image={require("../assets/007MwxDlgy1g5vymokkpkj30rw0ietc9.jpg")}
+                          title="Contemplative Reptile"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            プリンセスコネクト！Re:Dive
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary" component="p" paragraph>
+                            前作での最終ストーリー、ユイをプリンセスとして展開したルートに沿っており、
+                            Re:Diveにおいてはプロローグ内で覇瞳皇帝の最後の逆襲に敗れて意識が無くなった時点から物語は
+                            始まる。
+                          </Typography>
+                          <Typography variant="button" color="textSecondary" component="p">
+                            Read more...
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                  <Grid item lg={4} style={{paddingTop: 60}}>
+                    <Typography variant="h5">
+                      今日推荐
+                    </Typography>
+                    <Ranking />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
-        </Grid>
-      </Grid>
-      <Grid container>
-        <Grid item lg={12}>
-          <Typography variant="h6">
-            Top
-          </Typography>
-          <Divider />
-          <div style={{paddingTop: 45}}>
-            {props.music.storage.length > 0 && <CardGallery data={props.music.albums} />}
-          </div>
-        </Grid>
-      </Grid>
-      <Grid container spacing={6}>
-        <Grid item lg={8} style={{minHeight: 550}}>
-          <Typography variant="h6">
-            Artist
-          </Typography>
-          <Divider />
-          <ArtistGrids />
-        </Grid>
-        <Grid item lg={4} style={{minHeight: 550}}>
-          <Typography variant="h6">
-            Topic
-          </Typography>
-          <Divider />
-          <Topic />
-        </Grid>
-      </Grid>
+            <Grid container>
+              <Grid item lg={12}>
+                <Typography variant="h6">
+                  Top
+                </Typography>
+                <Divider />
+                <div style={{paddingTop: 45}}>
+                  {props.music.storage.length > 0 && <CardGallery data={props.music.albums} />}
+                </div>
+              </Grid>
+            </Grid>
+            <Grid container spacing={6}>
+              <Grid item lg={8} style={{minHeight: 550}}>
+                <Typography variant="h6">
+                  Artist
+                </Typography>
+                <Divider />
+                <ArtistGrids />
+              </Grid>
+              <Grid item lg={4} style={{minHeight: 550}}>
+                <Typography variant="h6">
+                  Topic
+                </Typography>
+                <Divider />
+                <Topic />
+              </Grid>
+            </Grid>
+          </>
+      }
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  console.log("state", state);
   return {
     music: state.nekoMusic,
   };

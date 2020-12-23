@@ -1,7 +1,4 @@
-import produce from 'immer';
 import nekoConnect from '../../../Connect';
-import config from "../../../MusicPlayer/src/connect/config";
-
 const fetchUrl = nekoConnect.fetchUrl;
 const optionConvert = nekoConnect.optionConvert;
 export default {
