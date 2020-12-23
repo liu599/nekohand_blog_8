@@ -3,7 +3,6 @@ const {REACT_APP_ENV} = process.env;
 const APP_VERSION = require("./package.json").version
 const APP_BUILD_TIME = new Date()
 const APP_SHOW_TIME = `${APP_BUILD_TIME.getFullYear()}${APP_BUILD_TIME.getMonth()+1}`
-const LOCAL_FORAGE = require("localforage");
 export default {
   targets: {
     ie: 11,
@@ -19,7 +18,7 @@ export default {
   exportStatic: {},
   history: {type: 'browser'},
   fastRefresh: {},
-  // ssr: { mode: 'stream' },
+  // ssr: { },
   dva: {
     hmr: true,
     immer: true,
@@ -27,10 +26,9 @@ export default {
   },
   crossorigin: true,
   dynamicImport: {
-    // loading: '@/components/PageLoading/index',
+    loading: '@/components/PageLoading/loading',
   },
   title: false,
-  dll: false,
   locale: {
     baseNavigator: true,
     default: 'en-US',
@@ -41,7 +39,8 @@ export default {
     REACT_APP_ENV: REACT_APP_ENV || false,
     APP_VERSION,
     APP_SHOW_TIME,
-    LOCAL_FORAGE,
+    NEKOHAND: "nekohand",
+    USERDATA: "userData",
   },
   devServer: {
     port: 5051,

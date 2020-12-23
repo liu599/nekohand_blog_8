@@ -29,15 +29,13 @@ const useStyles = makeStyles(() => ({
 const MusicListItemDemo = React.memo(function MusicListItem() {
   const commonProps = {
     blur: '1px',
-    radius: 20,
-    size: 60,
+    radius: 10,
+    size: 90,
     opacity: 0.7,
   };
-  const src =
-    'https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg';
+  const src = require('./0017492695.200.jpg');
   const avatarStyles = useGrowAvatarStyles({ src, ...commonProps });
-  const src2 =
-    'https://blog.ecs32.top/_joy/static/images/author-4de69ef9f0f5014da6b184bcdbfca054.jpg';
+  const src2 = require('./0017412458.200.jpg');
   const avatarStyles2 = useGrowAvatarStyles({ src: src2, ...commonProps });
   const styles = useStyles();
   return (

@@ -34,7 +34,7 @@ const _errorHandler = (error) => {
 async function FetchSources(params) {
     const url = params[0];
     const option = params[1];
-    console.log(params, "fetchSources");
+    // console.log(params, "fetchSources");
     // TODO: follow umi-request to write an uniform wrapper
     let data = option.data || {};
     const requestType = option.requestType || "FORM";
@@ -60,7 +60,7 @@ async function FetchSources(params) {
     if (method === "POST" || data === "") {
         delete par2.params
     }
-    console.log(par2, "parameter");
+    // console.log(par2, "parameter");
     return request(url, par2)
 }
 

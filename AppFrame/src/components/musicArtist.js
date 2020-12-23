@@ -12,6 +12,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
+import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
+
+import {useSelector,useDispatch} from 'dva';
+
 const columns = [
   { id: 'FileNo', label: 'No.', maxWidth: 60 },
   { id: 'name', label: 'Name', maxWidth: 60,
@@ -58,6 +63,7 @@ export default function StickyHeadTable(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const dispatch = useDispatch();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -68,12 +74,38 @@ export default function StickyHeadTable(props) {
     setPage(0);
   };
 
+  const addListHandler = (data) => {
+    dispatch({
+      payload: {
+        FileNo: data.FileNo,
+      },
+      type: "nekoMusic/addCache",
+    })
+  }
+
+  const deleteListHandler = (data) => {
+    dispatch({
+      payload: {
+        FileNo: data.FileNo,
+      },
+      type: "nekoMusic/deleteCache",
+    })
+  }
+
+  const checkAddHandler = (data) => {
+    return !props.selected.includes(data.FileNo);
+  }
+
+
+
   // console.log(columns, "blablabla")
 
   return (
     <Paper className={classes.root}>
       <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
+        <Table
+          stickyHeader
+          aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
@@ -97,7 +129,11 @@ export default function StickyHeadTable(props) {
           <TableBody>
             {props.data && props.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.FileNo}>
+                <TableRow
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                  key={row.FileNo}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
@@ -108,9 +144,15 @@ export default function StickyHeadTable(props) {
                   })}
                   <TableCell align={"right"}>
                     <div className={classes.btnGroup}>
-                      <ButtonGroup color="primary" aria-label="outlined primary button group">
-                        <Button>Add to list</Button>
-                        <Button color={"secondary"}>Delete from list</Button>
+                      <ButtonGroup  variant="text" color="primary"  aria-label="text primary button group">
+                        {checkAddHandler(row) ?
+                          <Button onClick={() => addListHandler(row)} >
+                            <FavoriteBorderOutlinedIcon/>
+                          </Button>
+                          : <Button color={"secondary"} onClick={() => deleteListHandler(row)}>
+                            <FavoriteOutlinedIcon />
+                          </Button>
+                        }
                       </ButtonGroup>
                     </div>
                   </TableCell>

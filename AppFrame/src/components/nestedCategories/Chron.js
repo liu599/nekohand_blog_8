@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+React.useLayoutEffect = React.useEffect
 import Menu from '@mui-treasury/components/menu/nested';
 import {
   Link,

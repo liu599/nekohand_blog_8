@@ -14,16 +14,6 @@ const useStyles = makeStyles({
   },
 });
 
-// function createData(name, calories) {
-//   return { name, calories };
-// }
-//
-// const rows = [
-//   createData('レーベル', "KING RECORDS"),
-//   createData('配信開始日', "2019.04.10"),
-//   createData('収録曲数', "全12曲"),
-//   createData('収録時間', "56:12"),
-// ];
 
 export default function BasicTable(props) {
   const classes = useStyles();

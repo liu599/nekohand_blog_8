@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+React.useLayoutEffect = React.useEffect
 import styles from './index.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -89,23 +90,28 @@ function topPage(props) {
                         />
                         <CardContent>
                           <Typography gutterBottom variant="h5" component="h2">
-                            プリンセスコネクト！Re:Dive
+                            Current Playing: プリンセスコネクト！Re:Dive
                           </Typography>
                           <Typography variant="body2" color="textSecondary" component="p" paragraph>
-                            前作での最終ストーリー、ユイをプリンセスとして展開したルートに沿っており、
-                            Re:Diveにおいてはプロローグ内で覇瞳皇帝の最後の逆襲に敗れて意識が無くなった時点から物語は
-                            始まる。
+                            Anime RPG: それは、どこまでも非現実的な、美しく尊い夢―美しき大地アストライア大陸。その中心にあるのは、
+                            いくつもの種族―獣人(ビースト)、エルフ、魔族、人間(ヒューマン)が助け合って暮らす街、王都『ランドソル』。
+                            主人公であるあなたが目を覚ましたのはその近くの平原だった。穏やかな風の音、瑞々しい草花の匂い。しかし、
+                            記憶だけがすっぽりと抜け落ちている。見知らぬ世界でたった一人、戸惑うあなたを導いたのは小さなガイド役の少女だった。
+                            さらにそこに通りがかった、腹ペコの剣士。心優しき魔法使いの少女。行き倒れていた猫の獣人(ビースト)。
+                            次々に生まれた絆が、あなたを世界に繋ぎとめていく。例え記憶が戻る方法は分からなくとも―和やかな暮らしにも慣れ、
+                            それなりに楽しく生きていけると思っていた。だが、平穏な時は永遠には続かない。ランドソルに巨大な陰謀の影が差し込む時、
+                            あなたと少女たちの運命が大きく動き出す―
                           </Typography>
                           <Typography variant="button" color="textSecondary" component="p">
-                            Read more...
+                            <a href="https://priconne-redive.jp/" target={"_blank"}>Read more...</a>
                           </Typography>
                         </CardContent>
                       </CardActionArea>
                     </Card>
                   </Grid>
                   <Grid item lg={4} style={{paddingTop: 60}}>
-                    <Typography variant="h5">
-                      今日推荐
+                    <Typography variant="h5" color={"primary"}>
+                      Top 10 Most Recent Songs
                     </Typography>
                     <Ranking />
                   </Grid>
@@ -146,6 +152,7 @@ function topPage(props) {
 }
 
 function mapStateToProps(state) {
+  console.log("check state", state);
   return {
     music: state.nekoMusic,
   };

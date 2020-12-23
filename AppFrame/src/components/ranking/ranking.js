@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+React.useLayoutEffect = React.useEffect
 import { makeStyles } from '@material-ui/core/styles';
 import { Column, Row, Item } from '@mui-treasury/components/flex';
-
 import Typography from '@material-ui/core/Typography';
-
+import {useSelector,useDispatch} from 'dva';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -36,75 +36,72 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const data = [
-  {
-    title: "BanG Dream Set List Digest 1",
-    song: 20,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "120",
-  },
-  {
-    title: "BanG Dream Set List Digest 2",
-    song: 20,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "110",
-  },
-  {
-    title: "BanG Dream Set List Digest 3",
-    song: 20,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "100",
-  },
-  {
-    title: "BanG Dream Set List Digest 4",
-    song: 20,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "90",
-  },
-  {
-    title: "BanG Dream Set List Digest 5",
-    song: 20,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "80",
-  },
-  {
-    title: "Seiyuu Set List Digest 1",
-    song: 100,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "70",
-  },
-  {
-    title: "Seiyuu Set List Digest 2",
-    song: 100,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "60",
-  },
-  {
-    title: "Seiyuu Set List Digest 3",
-    song: 100,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "50",
-  },
-  {
-    title: "Seiyuu Set List Digest 4",
-    song: 100,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "40",
-  },
-  {
-    title: "Seiyuu Set List Digest 5",
-    song: 10,
-    cover: "https://blog.ecs32.top/static/004MwxDlgy1g5vymokkpkj30rw0ietc9.jpg",
-    score: "30",
+import {
+  Link,
+} from 'umi';
+
+const findMusicList = (nekoMusic) => {
+  let target = nekoMusic.default;
+  let storage = nekoMusic.storage;
+  let ret = [];
+  target.forEach(item => {
+    let p = storage.find(music => music.FileNo === item)
+    ret.unshift(p);
+  })
+  while (ret.length > 10) {
+    ret.pop()
   }
-]
+  console.log(ret, "last")
+  return ret;
+}
 
 export default function Ranking() {
   const classes = useStyles();
+  const [rank, setRank] = useState([173, 174])
+  const [rankingData, setRankingData] = useState([{
+    album: " Yes! BanG_Dream!",
+    issueDate: "2016.02.24",
+    name: "01. Yes! BanG_Dream!",
+    artist: "Poppin'Party"
+  }]);
+  const nekoMusic = useSelector(state => state.nekoMusic);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    console.log(nekoMusic)
+    dispatch({
+      type: "nekoMusic/syncCache"
+    })
+    if (!nekoMusic.default) {
+      console.log("cannot find default list");
+      return
+    }
+    if (nekoMusic.default.length > 0) {
+      setRank(nekoMusic.default);
+    }
+    setRankingData(findMusicList(nekoMusic));
+  }, [])
+
+
+  if (rankingData && rankingData.length < 1) {
+    return (
+      <>
+        <Column gap={1} width={'100%'} className={classes.root}>
+          <Row mt={2}  align-items={"flex-end"} >
+            <Item>
+              <Typography variant="body1" color={"secondary"}>
+                Please activate data in this desktop.
+              </Typography>
+            </Item>
+          </Row>
+        </Column>
+      </>
+    )
+  }
+
   return (
     <>
       <Column gap={1} width={'100%'} className={classes.root}>
-        {data && data.map((item, ix) => {
+        {rankingData && rankingData.map((item, ix) => {
           return (
             <Row mt={2} key={ix} align-items={"flex-end"} >
               <Item>
@@ -114,13 +111,31 @@ export default function Ranking() {
               </Item>
               <Item style={{flex: 1}}>
                 <Typography variant="body1">
-                  <span className={classes.rankTitle}>{item.title}</span>
+                  <span className={classes.rankTitle}>
+                    <Link to={{
+                      pathname: "/zo/zo",
+                      query: {
+                          alb: 1,
+                          search: item.album,
+                      },
+                    }}>
+                      {item.name}
+                    </Link>
+                  </span>
                 </Typography>
               </Item>
               <Item>
                 <Typography variant="caption" className={classes.rankInfo}>
-                  <span>{item.score}{","}&nbsp;</span>
-                  <span>{item.song}</span>
+                  <Link to={{
+                    pathname: "/zo/zo",
+                    query: {
+                      art: 10001,
+                      search: item.artist,
+                    },
+                  }}>
+                    <span>{item.issueDate}{","}&nbsp;</span>
+                    <span>{item.artist}</span>
+                  </Link>
                 </Typography>
               </Item>
             </Row>

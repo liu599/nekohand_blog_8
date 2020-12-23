@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+React.useLayoutEffect = React.useEffect;
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,6 +17,9 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { firebaseTabsStylesHook } from '@mui-treasury/styles/tabs';
+/*Status*/
+import { connect, history } from 'umi';
+
 /*Styles*/
 const useStyles = makeStyles((theme) => ({
   toolbarTitle: {
@@ -84,8 +88,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/*Status*/
-import { connect, history } from 'umi';
+
 
 function mapStateToProps(state) {
   // console.log("state", state);
@@ -119,7 +122,11 @@ function PrimarySearchAppBar(props) {
     </Menu>
   );
 
-  React.useEffect(() => {
+
+
+  //https://dev.to/vvo/how-to-solve-window-is-not-defined-errors-in-react-and-next-js-5f97
+
+  useEffect(() => {
     if (window.location.pathname.includes("post")) {
       console.log("have post");
       setTabIndex(1)
@@ -156,7 +163,10 @@ function PrimarySearchAppBar(props) {
           noWrap
           className={classes.toolbarTitle}
         >
-          Nekohand - 猫の手も借りたい
+          {`
+             Nekohand - 猫の手も借りたい (Preview)
+          `}
+
         </Typography>
 
         <Tabs
