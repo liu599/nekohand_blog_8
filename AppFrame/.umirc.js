@@ -26,7 +26,7 @@ export default {
   },
   crossorigin: true,
   dynamicImport: {
-    loading: '@/components/PageLoading/loading',
+    // loading: '@/components/PageLoading/loading',
   },
   title: false,
   locale: {
