@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-React.useLayoutEffect = React.useEffect
+React.useLayoutEffect = React.useEffect;
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { convertTimeStamp } from "../../utils/array";

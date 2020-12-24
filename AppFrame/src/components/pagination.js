@@ -28,15 +28,14 @@ export default function PaginationControlled(props) {
   const pager = props.pager;
   const classes = useStyles();
   const [page, setPage] = React.useState(1);
-  let count = 1;
   const handleChange = (event, value) => {
     setPage(value);
-    console.log("handle change", window.location);
+    console.log("handle change", value);
     let query = queryString.parse(window.location.search);
     // query.hasOwnProperty = Object.hasOwnProperty;
     query.pn = value;
     history.push({
-      pathname: '/nekohand/blog',
+      pathname: window.location.pathname,
       query,
     });
   };

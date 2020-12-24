@@ -3,6 +3,7 @@ React.useLayoutEffect = React.useEffect
 import { makeStyles } from '@material-ui/core/styles';
 import { Column, Row, Item } from '@mui-treasury/components/flex';
 import Typography from '@material-ui/core/Typography';
+import AD from '../ads';
 import {useSelector,useDispatch} from 'dva';
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,7 +52,7 @@ const findMusicList = (nekoMusic) => {
   while (ret.length > 10) {
     ret.pop()
   }
-  console.log(ret, "last")
+  // console.log(ret, "last")
   return ret;
 }
 
@@ -67,12 +68,12 @@ export default function Ranking() {
   const nekoMusic = useSelector(state => state.nekoMusic);
   const dispatch = useDispatch()
   useEffect(() => {
-    console.log(nekoMusic)
+    // console.log(nekoMusic)
     dispatch({
       type: "nekoMusic/syncCache"
     })
     if (!nekoMusic.default) {
-      console.log("cannot find default list");
+      console.log("[INFO] No activated account in this desktop.");
       return
     }
     if (nekoMusic.default.length > 0) {
@@ -88,9 +89,10 @@ export default function Ranking() {
         <Column gap={1} width={'100%'} className={classes.root}>
           <Row mt={2}  align-items={"flex-end"} >
             <Item>
-              <Typography variant="body1" color={"secondary"}>
+              <Typography variant="body1" color={"secondary"} paragraph>
                 Please activate data in this desktop.
               </Typography>
+              <AD />
             </Item>
           </Row>
         </Column>
@@ -100,11 +102,11 @@ export default function Ranking() {
 
   return (
     <>
-      <Column gap={1} width={'100%'} className={classes.root}>
+      <Column width={'100%'} className={classes.root}>
         {rankingData && rankingData.map((item, ix) => {
           return (
             <Row mt={2} key={ix} align-items={"flex-end"} >
-              <Item>
+              <Item style={{flex: 1}}>
                 <Typography variant="body1">
                   <span className={ix < 3 ? classes.rank : classes.rankNumber}>{ix+1}</span>
                 </Typography>
@@ -124,7 +126,7 @@ export default function Ranking() {
                   </span>
                 </Typography>
               </Item>
-              <Item>
+              <Item style={{flex: 2, flexGrow: 1}}>
                 <Typography variant="caption" className={classes.rankInfo}>
                   <Link to={{
                     pathname: "/zo/zo",

@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import Typography from '@material-ui/core/Typography';
-import Categories from '../../components/nestedCategories/Categories'
-import Chron from '../../components/nestedCategories/Chron'
+import Categories from '../../components/blogCategories/Categories'
+import Chron from '../../components/blogCategories/Chron'
 import Ad from '../../components/ads'
 
 const useStyles = makeStyles({

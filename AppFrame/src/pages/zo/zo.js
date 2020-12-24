@@ -4,7 +4,7 @@ import lodash from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import ArtistList from '../../components/musicArtist';
+import ArtistList from '../../components/musicList';
 import CardGallery from '../../components/gallery/gallery';
 import MusicInfoTable from '../../components/musicInfoTable'
 
@@ -67,7 +67,6 @@ function createArtistData(FileNo, name, album, quality, issueDate) {
 function makeArtistTable(renderData) {
   let quality = "MP3"
   let {FileNo, name, album, issueDate} = renderData;
-  album = `《${album}》`;
   if (name.includes("HQ")) {
     quality = "HQ-FLAC"
   }
@@ -95,14 +94,12 @@ function makeTableData(lg) {
 function Zo(props) {
   const classes = useStyles();
   const [artist, setArtist] = useState("default");
-  const [artistData, setArtistData] = useState([]);
   const [albumData, setAlbumData] = useState([]);
   const [album, setAlbum] = useState("default");
   const [renderData, setRenderData] = useState([]);
 
-  const {loading,nekohandBlog} = useSelector(stores => ({
+  const {loading} = useSelector(stores => ({
     loading: stores.loading,
-    nekohandBlog: stores.loading,
   }))
 
   function updateData() {

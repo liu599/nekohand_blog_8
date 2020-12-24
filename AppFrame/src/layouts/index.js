@@ -6,7 +6,7 @@ import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/sty
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import { deepOrange } from '@material-ui/core/colors';
-import Header from '../components/dynamicHeader';
+import Header from '../components/blogHeader/dynamicHeader';
 import { history } from 'umi';
 
 const sections = [
@@ -64,8 +64,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.default,
-    minHeight: '100vh',
+    backgroundColor: "transparent",
+    minHeight: "100vh",
   },
   paper: {
     padding: theme.spacing(2),

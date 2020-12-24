@@ -16,7 +16,7 @@ function ForageCreation() {
     list2: [],
     list3: [],
     albums: [],
-    artist: [],
+    artists: [],
     storage: [],
   });
 }
@@ -24,9 +24,8 @@ function ForageCreation() {
 export function ForageInit() {
   localforage.getItem(NEKOHAND).then(function(value) {
     // 当离线仓库中的值被载入时，此处代码运行
-    console.log(value, Date.now(), "old value");
     if (value === null || value.expiredAt < Date.now()) {
-      console.log("expired.")
+      console.log("[INFO] You local data had been expired.")
       ForageCreation().then(r => r);
     }
   }).catch(function(err) {
@@ -52,4 +51,14 @@ export function deleteDefaultListService({FileNo}) {
     p.default.splice(p.default.findIndex(item => item === FileNo), 1)
     return localforage.setItem(NEKOHAND, p).then(r => r);
   });
+}
+
+export function updateService(data) {
+  localforage.getItem(NEKOHAND).then((res)=>{
+    console.log("[INFO] Save local data", data, res);
+    if (res.expiredAt < Date.now()) {
+      return res;
+    }
+    return localforage.setItem(NEKOHAND, Object.assign({}, res, data)).then(r => r);
+  })
 }

@@ -1,6 +1,7 @@
 export default {
     rootUrl: 'https://kasumi.ecs32.top',
     fileRootUrl: 'https://file.ecs32.top/data',
+    ossRootUrl: 'https://oss-aimi.ecs32.top',
     oldFileRootUrl: 'https://file.ecs32.top/data/music',
     playerlist: ["https://mltd.ecs32.top/filelist", "FORM", "POST"],
     audio: ["https://mltd.ecs32.top/ecs-music", "FORM", "POST"],
@@ -13,6 +14,8 @@ export default {
         postByCategory: ["https://kasumi.ecs32.top/api/nekohand/v2/frontend/categories", "FORM", "GET", "w"],
         postTime: ["https://kasumi.ecs32.top/api/nekohand/v2/frontend/po/t", "FORM", "POST"],
         postChronology: ["https://kasumi.ecs32.top/api/nekohand/v2/frontend/posts-chronology", "FORM", "GET", "w"],
+        aimiPic: ["https://mltd.ecs32.top/tag.filelist", "FORM", "POST"],
+        aimiPicTags: ["https://mltd.ecs32.top/tags.get", "FORM", "GET", "w"],
         rootUrl: 'https://kasumi.ecs32.top',
         fileUrl: 'https://mltd.ecs32.top',
         filemodules: {
@@ -42,8 +45,8 @@ export default {
                 categoryDelete: 'auth/category.delete',
             },
             others: {
-                friends: 'https://api.ecs32.top/service/friends',
-                favorites: 'https://api.ecs32.top/service/favorites',
+                friends: ["https://api.ecs32.top/service/friends", "FORM", "GET", "w"],
+                favorites: ["https://api.ecs32.top/service/favorites", "FORM", "GET", "w"],
             },
             genUrl: function (module, name) {
                 return `${this.nekohandBlog.rootUrl}${this.nekohandBlog.relativePath}${module}/${name}`

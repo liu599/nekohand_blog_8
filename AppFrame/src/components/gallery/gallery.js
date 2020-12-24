@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function TitlebarGridList(props) {
+export default function AlbumGridList(props) {
   const classes = useStyles();
 
   return (

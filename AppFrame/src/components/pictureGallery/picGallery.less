@@ -1,0 +1,46 @@
+@import '../../assets/base.less';
+.thumbnail {
+  height: 200px;
+  width: 200px;
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  margin: 24px;
+  position: relative;
+  a {
+    width: 200px;
+    height: 200px;
+    display: block;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    //&::after {
+    //  content: '';
+    //  height: 100%;
+    //  width: 100%;
+    //  position: absolute;
+    //  left: 0;
+    //  top: 0;
+    //  background: url("./loading.gif") no-repeat center;
+    //  z-index: 10;
+    //}
+  }
+}
+.thumbnailImg {
+  z-index: 100;
+}
+
+.thumbGroup {
+  width: 200px;
+}
+
+.container {
+  width: 100%;
+  flex-direction: row;
+  flex-wrap: wrap;
+  display: flex;
+  padding: 50px 0;
+  text-align: center;
+  align-items: baseline;
+  flex-basis: 12px;
+  justify-content: center;
+}

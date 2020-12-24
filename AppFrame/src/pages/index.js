@@ -23,7 +23,7 @@ import Divider from '@material-ui/core/Divider';
 
 import CardGallery from '../components/gallery/gallery';
 import Topic from '../components/topic/topic';
-import ArtistGrids from '../components/avaterGallery/avater'
+import ArtistGrids from '../components/artist/artist'
 import Ranking from '../components/ranking/ranking'
 
 import {useSelector,useDispatch} from 'dva';
@@ -67,7 +67,7 @@ function topPage(props) {
   //https://stackoverflow.com/questions/44506207/reactjs-lifecycle-method-inside-a-function-component
   useEffect(() => {
     fetchMusic();
-    console.log('mount it!');
+    // console.log('mount it!');
   }, []);
 
   const classes = useStyles();
@@ -120,8 +120,16 @@ function topPage(props) {
             </Grid>
             <Grid container>
               <Grid item lg={12}>
-                <Typography variant="h6">
-                  Top
+                <Typography variant="h6" style={{position: "relative"}}>
+                  Albums
+                  <span style={{position: "absolute", right: 0}}>
+                    <Link to={{
+                      pathname: "/zo/zo-gallery",
+                      query: {
+                        albums: 1
+                      },
+                    }}>More albums...</Link>
+                  </span>
                 </Typography>
                 <Divider />
                 <div style={{paddingTop: 45}}>
@@ -131,8 +139,16 @@ function topPage(props) {
             </Grid>
             <Grid container spacing={6}>
               <Grid item lg={8} style={{minHeight: 550}}>
-                <Typography variant="h6">
+                <Typography variant="h6" style={{position: "relative"}}>
                   Artist
+                  <span style={{position: "absolute", right: 0}}>
+                    {/*<Link to={{*/}
+                    {/*  pathname: "/zo/zo-gallery",*/}
+                    {/*  query: {*/}
+                    {/*    artists: 1*/}
+                    {/*  },*/}
+                    {/*}}>More artists...</Link>*/}
+                  </span>
                 </Typography>
                 <Divider />
                 <ArtistGrids />
@@ -152,7 +168,7 @@ function topPage(props) {
 }
 
 function mapStateToProps(state) {
-  console.log("check state", state);
+  // console.log("check state", state);
   return {
     music: state.nekoMusic,
   };

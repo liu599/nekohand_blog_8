@@ -32,14 +32,15 @@
     // }
     // document.querySelector('#__joy').style.backgroundColor = 'rgb(237, 237, 237)';
     // document.querySelector('#root').style.backgroundImage = 'url(/promote/background/live-event-title-bg.png)';
-    console.log('External Script Loaded.');
+  console.log('External Script Loaded.');
+  console.log('Nekohand Blog v8.0.0');
 
     setTimeout(function() {
         // doc.querySelector('nav._29178').style.display = 'none';
         doc.body.style.backgroundImage = "url("+imgUrl+")";
         let upElement = doc.createElement('div');
         let imgElement = doc.createElement('img');
-        imgElement.src = "https://blog.ecs32.top/static/btn_back-to-top.png";
+        imgElement.src = "https://ecs32.top/btn_back-to-top.png";
         imgElement.style.cssText = 'width: 72px; height: 72px; :hover{opacity: 0.5;}';
         doc.body.appendChild(upElement);
         upElement.id = "poppinpartytop";

@@ -1,8 +1,11 @@
 import lodash from 'lodash'
 import produce from 'immer';
 import nekoConnect from '../../../Connect';
+const fetchUrl = nekoConnect.fetchUrl;
+const optionConvert = nekoConnect.optionConvert;
 import config from "../../../MusicPlayer/src/connect/config";
-import {localforage, GetItemService, addDefaultListService, deleteDefaultListService} from "../utils/local";
+
+import {localforage, GetItemService, addDefaultListService, deleteDefaultListService, updateService} from "../utils/local";
 const keyNameFilter = (keyName, arr) => {
   let arrb = lodash.cloneDeep(arr);
   let keyMap = {}
@@ -22,8 +25,7 @@ const keyNameFilter = (keyName, arr) => {
   }
   return ret
 }
-const fetchUrl = nekoConnect.fetchUrl;
-const optionConvert = nekoConnect.optionConvert;
+
 export default {
   namespace: 'nekoMusic',
   state: {
@@ -76,17 +78,7 @@ export default {
       });
       const albumData = keyNameFilter("album", _imuData);
       const artistData = keyNameFilter("artist", _imuData);
-      localforage.getItem(NEKOHAND).then((res)=>{
-        console.log(res);
-        if (res.expiredAt > Date.now()) {
-          return res;
-        }
-        return localforage.setItem(NEKOHAND, Object.assign({}, res, {
-          storage: _imuData,
-          albums: albumData,
-          artists: artistData,
-        }));
-      })
+
       return Object.assign({}, state, {
         storage: _imuData,
         albums: albumData,
@@ -94,7 +86,7 @@ export default {
       })
     },
     syncLocalCache(state, {payload: result}) {
-      console.log("sync local cache")
+      console.log("[SYNC]: sync your list to local cache")
       return Object.assign({}, state, {
         list1: result.list1,
         default: result.default,
@@ -104,7 +96,7 @@ export default {
     }
   },
   effects: {
-    *fetchMusic(action, { call, put, fork }) {
+    *fetchMusic(action, { call, put, fork, select }) {
       let data1 = yield call(fetchUrl, optionConvert(action.payload))
       let data2 = yield call(fetchUrl, optionConvert({
         urlTag: 'playerlist',
@@ -115,6 +107,14 @@ export default {
       }))
       let data = [...data1.data, ...data2.data];
       yield put({type: "saveMusicData", payload: data})
+      const albums = yield select(state => state['nekoMusic'].albums);
+      const artists = yield select(state => state['nekoMusic'].artists);
+      const storage = yield select(state => state['nekoMusic'].storage);
+      yield fork(updateService, {
+        albums,
+        artists,
+        storage,
+      });
     },
     *syncCache(action, {call, put}) {
       const result = yield call(GetItemService);

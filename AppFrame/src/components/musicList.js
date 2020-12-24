@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+React.useLayoutEffect = React.useEffect
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -16,13 +17,37 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import FavoriteOutlinedIcon from '@material-ui/icons/FavoriteOutlined';
 
 import {useSelector,useDispatch} from 'dva';
+import {
+  Link,
+  connect,
+  getLocale,
+  setLocale,
+  useIntl,
+  history,
+  Helmet,
+} from 'umi';
 
 const columns = [
   { id: 'FileNo', label: 'No.', maxWidth: 60 },
-  { id: 'name', label: 'Name', maxWidth: 60,
+  {
+    id: 'name',
+    label: 'Name', maxWidth: 60,
     align: 'center' },
-  { id: 'album', label: 'Album', minWidth: 100,
-    align: 'center' },
+  {
+    id: 'album',
+    label: 'Album',
+    minWidth: 100,
+    align: 'center',
+    format: (value) => {
+      return (<Link to={{
+        pathname: "/zo/zo",
+        query: {
+          alb: 1,
+          search: encodeURIComponent(value),
+        }
+      }}>{`《${value}》`}</Link>)
+    },
+  },
   {
     id: 'quality',
     label: 'Quality',
@@ -59,11 +84,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function StickyHeadTable(props) {
+export default function MusicInfo(props) {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setPage(0);
+    setRowsPerPage(10);
+  }, [props.data])
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -95,10 +125,6 @@ export default function StickyHeadTable(props) {
   const checkAddHandler = (data) => {
     return !props.selected.includes(data.FileNo);
   }
-
-
-
-  // console.log(columns, "blablabla")
 
   return (
     <Paper className={classes.root}>
@@ -138,7 +164,7 @@ export default function StickyHeadTable(props) {
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
+                        {column.format ? column.format(value) : value}
                       </TableCell>
                     );
                   })}

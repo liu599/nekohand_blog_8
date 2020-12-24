@@ -11,13 +11,24 @@ import {
 } from '@mui-treasury/components/info';
 import { useGalaxyInfoStyles } from '@mui-treasury/styles/info/galaxy';
 import { useCoverCardMediaStyles } from '@mui-treasury/styles/cardMedia/cover';
+import {
+  Link,
+  connect,
+  getLocale,
+  setLocale,
+  useIntl,
+  history,
+  Helmet,
+} from 'umi';
+
 
 const useStyles = makeStyles(() => ({
   card: {
     borderRadius: '1rem',
     boxShadow: 'none',
     position: 'relative',
-    minWidth: 200,
+    maxWidth: 200,
+    width: "100%",
     minHeight: 360,
     '&:after': {
       content: '""',
@@ -53,9 +64,26 @@ export default function GalaxyCard() {
         />
         <Box py={3} px={2} className={styles.content}>
           <Info useStyles={useGalaxyInfoStyles}>
-            <InfoSubtitle>Aimi</InfoSubtitle>
-            <InfoTitle>Smile</InfoTitle>
-            <InfoCaption>Perfect Woman</InfoCaption>
+            <InfoSubtitle>
+              AiM:Φriginal
+            </InfoSubtitle>
+            <InfoTitle>
+              <Link
+                style={{color: "#fff"}}
+                to={{
+                pathname: "/zo/zo-gallery",
+                query: {
+                  tagid: "5e50152d58adfe5f36e095f5",
+                  pn: 1,
+                  pagesize: 40,
+                }
+              }}>
+                愛美
+              </Link>
+            </InfoTitle>
+            <InfoCaption>
+              Perfect Woman
+            </InfoCaption>
           </Info>
         </Box>
       </Card>
