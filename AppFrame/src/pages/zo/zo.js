@@ -13,9 +13,6 @@ import MusicInfoTabs from '../../components/musicInfoTabs'
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 
-import Chip from '@material-ui/core/Chip';
-
-
 import {findKeyNameInArray, shuffleArray} from '../../utils/array';
 
 import {
@@ -123,7 +120,7 @@ function Zo(props) {
   }
 
   useEffect(() => {
-    console.log(props.music)
+    // console.log(props.music)
     if (props.music.artists.length === 0  && props.music.albums.length === 0 ) {
       history.push("/");
     }

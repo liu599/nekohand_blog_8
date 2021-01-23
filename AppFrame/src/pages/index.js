@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
-React.useLayoutEffect = React.useEffect
-import styles from './index.css';
+React.useLayoutEffect = React.useEffect;
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
@@ -50,6 +49,8 @@ function topPage(props) {
     loading: stores.loading,
     nekoMusic: stores.loading,
   }))
+
+
 
   function fetchMusic(){
     props.dispatch({
@@ -176,26 +177,3 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(topPage);
 
-function aba() {
-  const intl = useIntl();
-  return (
-    <div className={styles.normal}>
-      <ul className={styles.list}>
-        <li>To get started, edit <code>src/pages/index.js</code> and save to reload.</li>
-        <li>
-          <a href="https://umijs.org/guide/getting-started.html">
-            {intl.formatMessage(
-              {
-                id: 'name',
-                defaultMessage: '你好，旅行者',
-              },
-              {
-                name: '旅行者',
-              },
-            )}
-          </a>
-        </li>
-      </ul>
-    </div>
-  );
-}

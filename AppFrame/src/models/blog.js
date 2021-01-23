@@ -9,6 +9,7 @@ export default {
     currentPost: {},
     categories: [],
     chron: [],
+    info: {},
   },
   reducers: {
     savePost(state, {payload: currentPost}) {

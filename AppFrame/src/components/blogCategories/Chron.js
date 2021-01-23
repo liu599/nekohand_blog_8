@@ -60,7 +60,7 @@ function Chron(props) {
 }
 
 function mapStateToProps(state) {
-  console.log("state", state);
+  // console.log("state", state);
   return {
     data: state.nekohandBlog,
     location: state.router,

@@ -2,7 +2,7 @@
 const {REACT_APP_ENV} = process.env;
 const APP_VERSION = require("./package.json").version
 const APP_BUILD_TIME = new Date()
-const APP_SHOW_TIME = `${APP_BUILD_TIME.getFullYear()}${APP_BUILD_TIME.getMonth()+1}`
+const APP_SHOW_TIME = `${APP_BUILD_TIME.getFullYear()}${(APP_BUILD_TIME.getMonth()+1)>10?(APP_BUILD_TIME.getMonth()+1):`0${(APP_BUILD_TIME.getMonth()+1)}`}`
 export default {
   targets: {
     ie: 11,

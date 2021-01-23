@@ -35,9 +35,21 @@ export default {
     },
     storage: [],
     albums: [],
-    artists: []
+    artists: [],
+    links: {},
+    favs: {},
   },
   reducers: {
+    saveLinkData(state, {payload: links}) {
+      return Object.assign({}, state, {
+        links: links.data,
+      });
+    },
+    saveFavData(state, {payload: favs}) {
+      return Object.assign({}, state, {
+        favs,
+      });
+    },
     saveMusicData(state, {payload: musicData}) {
       const resReg = /\[([\s\S]+)]([\s\S]+)/g;
       const _imuData = produce(musicData, draft => {
@@ -96,6 +108,14 @@ export default {
     }
   },
   effects: {
+    *fetchLinks(action, { call, put, fork, select }) {
+      let links = yield call(fetchUrl, optionConvert(action.payload));
+      yield put({type: "saveLinkData", payload: links.data});
+    },
+    *fetchFavs(action, { call, put, fork, select }) {
+      let favs = yield call(fetchUrl, optionConvert(action.payload));
+      yield put({type: "saveFavData", payload: favs.data});
+    },
     *fetchMusic(action, { call, put, fork, select }) {
       let data1 = yield call(fetchUrl, optionConvert(action.payload))
       let data2 = yield call(fetchUrl, optionConvert({

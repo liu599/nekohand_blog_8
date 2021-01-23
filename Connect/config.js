@@ -16,6 +16,8 @@ export default {
         postChronology: ["https://kasumi.ecs32.top/api/nekohand/v2/frontend/posts-chronology", "FORM", "GET", "w"],
         aimiPic: ["https://mltd.ecs32.top/tag.filelist", "FORM", "POST"],
         aimiPicTags: ["https://mltd.ecs32.top/tags.get", "FORM", "GET", "w"],
+        friends: ["https://api.ecs32.top/service/friends", "FORM", "GET", "w"],
+        favorites: ["https://api.ecs32.top/service/favorites", "FORM", "GET", "w"],
         rootUrl: 'https://kasumi.ecs32.top',
         fileUrl: 'https://mltd.ecs32.top',
         filemodules: {

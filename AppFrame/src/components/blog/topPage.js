@@ -32,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
 export default function CustomizedTimeline(props) {
   const classes = useStyles();
 
-  console.log(props, "pppp");
-
   return (
     <Timeline>
       {props.posts && props.posts.map((item, index) =>

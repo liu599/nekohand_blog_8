@@ -66,7 +66,7 @@ function RightMenu(props) {
 }
 
 function mapStateToProps(state) {
-  console.log("categories", state);
+  // console.log("categories", state);
   return {
     data: state.nekohandBlog,
   };
