@@ -12,8 +12,8 @@ const sections = [
   { title: "Top", url: '/' },
   { title: "Blog", url: '/nekohand/blog' },
   { title: 'About', url: '/about' },
-  // { title: 'Friends', url: '/friends' },
-  // { title: 'Bookmarks', url: '/bookmarks' },
+  { title: 'Friends', url: '/friends' },
+  { title: 'Bookmarks', url: '/bookmarks' },
 ];
 
 const theme = createMuiTheme({});

@@ -1,5 +1,5 @@
 @import '../assets/base.less';
-//@import '../assets/clearfix.mixin.less';
+@import '../assets/clearfix.mixin.less';
 .widget {
   margin-top: 0;
   padding: 0;
@@ -8,19 +8,7 @@
   //border-style: solid;
   //border-color: #e1e1e4;
   border-radius: 5px;
-  //.clearfix;
-  *zoom: 1;
-
-  &:before,
-  &:after {
-    display: table;
-    line-height: 0;
-    content: "";
-  }
-
-  &:after {
-    clear: both;
-  }
+  .clearfix;
 }
 
 .widgetHead, .widgetListHead {
@@ -49,19 +37,7 @@
     list-style: none;
     //padding: 0 0 .6em 1.2em;
     padding: 0;
-    //.clearfix;
-    *zoom: 1;
-
-    &:before,
-    &:after {
-      display: table;
-      line-height: 0;
-      content: "";
-    }
-
-    &:after {
-      clear: both;
-    }
+    .clearfix;
   }
   li {
     font-size: 1rem;
