@@ -5,7 +5,6 @@ import StickyFooter from '../components/stickyFooter';
 import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import { deepOrange } from '@material-ui/core/colors';
 import Header from '../components/blogHeader/dynamicHeader';
 import { history } from 'umi';
 
@@ -13,8 +12,8 @@ const sections = [
   { title: "Top", url: '/' },
   { title: "Blog", url: '/nekohand/blog' },
   { title: 'About', url: '/about' },
-  { title: 'Friends', url: '/friends' },
-  { title: 'Bookmarks', url: '/bookmarks' },
+  // { title: 'Friends', url: '/friends' },
+  // { title: 'Bookmarks', url: '/bookmarks' },
 ];
 
 const theme = createMuiTheme({});
