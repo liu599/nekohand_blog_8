@@ -1,5 +1,5 @@
 import { createLogger } from 'redux-logger';
-import { ForageInit } from './utils/local';
+import { ForageInit } from '../src/utils/local';
 export const dva = {
   initialState: {
     local: ForageInit(),

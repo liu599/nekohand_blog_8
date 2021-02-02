@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-React.useLayoutEffect = React.useEffect;
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
