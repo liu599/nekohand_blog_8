@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from "react";
+import React, {useEffect, useState} from "react";
 import produce from 'immer';
 import styles from "./picGallery.less";
 import { makeStyles } from '@material-ui/core/styles';
@@ -7,22 +7,18 @@ import Typography from "@material-ui/core/Typography";
 
 import {
   Link,
-  connect,
-  getLocale,
-  setLocale,
-  useIntl,
-  history,
-  Helmet,
 } from 'umi';
-import {colors} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   loading: {
+    marginTop: -200,
     display: 'flex',
     width: 200,
     height: 200,
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 999,
+    background: "transparent",
     '& > * + *': {
       marginLeft: theme.spacing(2),
     },
@@ -81,6 +77,20 @@ const picGallery = (props) => {
         }),
       ]);
       setImageLength(info.length);
+      /*
+      * When you return a function from useEffect, that function will
+      * be executed when the component unmounts.
+      * So taking advantage of that, you set your state to an empty.
+      * Doing this, whenever you leave that screen or the component unmounts, the state will be empty,
+      * so the components of your screen won't be trying to re-render again. I hope this helps
+      *
+      *
+      *
+      * */
+      return () => {
+        setImageData([]);
+        setImageLength(0);
+      }
     }, [])
 
     const handleImgLoading = () => {
@@ -108,7 +118,7 @@ const picGallery = (props) => {
               }
             }),
           ]);
-          console.log(`正在加载第${imageLoadingTime}/${imageLength}个图片...`);
+          console.log(`正在加载第${imageLoadingCurrentPoint}/${imageLength}个图片...`);
         }
         return null;
       }
@@ -132,9 +142,7 @@ const picGallery = (props) => {
                 }
               } : {pathname: imageUrl}} target={!name && "_blank"} replace={!name}>
                 <>
-                  <span className={classes.loading}>
-                        <CircularProgress color={"secondary"} fontSize={"large"} />
-                  </span>
+
                   {DeletedAt === true
                     ? null
                     :
@@ -149,6 +157,9 @@ const picGallery = (props) => {
                            //  Acquire
                            thisNode.onerror = () => {
                              console.log("error in loading",imageUrl);
+                             // 删去加载符
+                             thisNode.parentNode.querySelector("div").remove();
+                             thisNode.parentNode.querySelector("img").remove();
                            };
                            // if (img.complete) {
                            //     updateFunc();
@@ -157,7 +168,7 @@ const picGallery = (props) => {
                            thisNode.onload = () => {
                              // console.log("loaded", imageUrl);
                              // 删去加载符
-                             thisNode.parentNode.querySelector("span").remove();
+                             thisNode.parentNode.querySelector("div").remove();
                              // 增加一个FinishTag
                              thisNode.setAttribute("data-finish", "1");
                              handleImgLoading();
@@ -167,6 +178,9 @@ const picGallery = (props) => {
                          onError={handleImgLoading}
                     />
                   }
+                  <div className={classes.loading}>
+                    <CircularProgress color={"secondary"} fontSize={"large"} />
+                  </div>
                 </>
               </Link>
             </div>
@@ -180,7 +194,7 @@ const picGallery = (props) => {
     }
 
     if (imageData.length < 1) {
-      return <div>loading</div>
+      return <div>Error loading pictures.</div>
     }
 
 

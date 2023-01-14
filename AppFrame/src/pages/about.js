@@ -14,32 +14,12 @@ export default function About() {
 
   return (
     <div className={classes.root}>
-      {/*<Typography variant="h1" component="h2" gutterBottom>
-        h1. Heading
-      </Typography>
-      <Typography variant="h2" gutterBottom>
-        h2. Heading
-      </Typography>
-      <Typography variant="h3" gutterBottom>
-        h3. Heading
-      </Typography>
-      <Typography variant="h4" gutterBottom>
-        h4. Heading
-      </Typography>
-      <Typography variant="h5" gutterBottom>
-        h5. Heading
-      </Typography>*/}
       <Typography variant="h6" gutterBottom paragraph>
         Status
       </Typography>
       <Typography variant="body1" gutterBottom paragraph>
-        Start from 2021 new year, Nekohand Blog upgrade to version 8,with a front-end with Material-ui, Umijs & Reactjs，back-end with Go.
-      </Typography>
-      <Typography variant="h6" gutterBottom paragraph>
-        Announcement
-      </Typography>
-      <Typography variant="body1" gutterBottom paragraph>
-        Personal Website.
+        Start from 2021.01.03, Nekohand Blog upgrade to Version 8,with a front-end with Material-ui, Umijs based on Reactjs.
+        Back-end with Go.
       </Typography>
       <Typography variant="h6" gutterBottom paragraph>
         Contact
@@ -51,14 +31,14 @@ export default function About() {
         GPL-3.0 License
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
-        Copyright 2021 Tokei {"."}
+        Copyright 2021-2023 Tokei {"."}
       </Typography>
       {/*<Typography variant="subtitle2" gutterBottom>*/}
       {/*  subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur*/}
       {/*</Typography>*/}
       <Typography variant="body1" gutterBottom paragraph>
         Nekohand 公式サイト
-        Copyright (C) 2021 Nekohand 公式サイト委員會/EC小站
+        Copyright (C) 2021-2023 Nekohand 公式サイト委員會/EC小站
       </Typography>
       <Typography variant="body1" gutterBottom paragraph>
         This program is free software: you can redistribute it and/or modify

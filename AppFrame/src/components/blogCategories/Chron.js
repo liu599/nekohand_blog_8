@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-React.useLayoutEffect = React.useEffect
 import Menu from '@mui-treasury/components/menu/nested';
 import {
   Link,
@@ -10,6 +9,7 @@ import {
   history,
   Helmet,
 } from 'umi';
+React.useLayoutEffect = React.useEffect
 
 
 function Chron(props) {

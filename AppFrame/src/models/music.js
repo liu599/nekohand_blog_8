@@ -1,11 +1,11 @@
 import lodash from 'lodash'
 import produce from 'immer';
 import nekoConnect from '../../../Connect';
-const fetchUrl = nekoConnect.fetchUrl;
-const optionConvert = nekoConnect.optionConvert;
 import config from "../../../MusicPlayer/src/connect/config";
 
 import {localforage, GetItemService, addDefaultListService, deleteDefaultListService, updateService} from "../utils/local";
+const fetchUrl = nekoConnect.fetchUrl;
+const optionConvert = nekoConnect.optionConvert;
 const keyNameFilter = (keyName, arr) => {
   let arrb = lodash.cloneDeep(arr);
   let keyMap = {}

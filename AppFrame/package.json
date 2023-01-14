@@ -1,6 +1,6 @@
 {
   "name": "nekohand-blog-v8",
-  "version": "8.1.0",
+  "version": "8.2.0",
   "author": "Tokei <970228409@qq.com>",
   "license": "GPL-3.0-or-later",
   "private": true,
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@devexpress/dx-react-scheduler": "^2.7.3",
-    "@material-ui/core": "^4.11.2",
+    "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@mui-treasury/components": "^1.9.2",

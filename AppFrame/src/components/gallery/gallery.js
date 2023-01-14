@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     width: '100%',
-    height: 450,
+    height: 400,
     transform: 'translateZ(0)',
   },
   icon: {
@@ -48,7 +48,7 @@ export default function AlbumGridList(props) {
             {tile ? (
               <img style={{ width: "100%", height: 200, margin: "0 auto" }} alt={tile.album} src={tile.cover} />
             ) : (
-              <Skeleton variant="rect" width={"100%"} height={200} />
+              <Skeleton variant="rect" width={"100%"} height={180} />
             )}
             <GridListTileBar
               title={tile.album}

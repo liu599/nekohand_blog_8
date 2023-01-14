@@ -33,7 +33,7 @@ const MusicListItemDemo = React.memo(function MusicListItem() {
     size: 90,
     opacity: 0.7,
   };
-  const src = require('./0017492695.200.jpg');
+  const src = require('./topic.png');
   const avatarStyles = useGrowAvatarStyles({ src, ...commonProps });
   const src2 = require('./0017412458.200.jpg');
   const avatarStyles2 = useGrowAvatarStyles({ src: src2, ...commonProps });
@@ -49,7 +49,7 @@ const MusicListItemDemo = React.memo(function MusicListItem() {
           </Item>
           <Info useStyles={useMusicInfoStyles} minWidth={0}>
             <InfoTitle>Markup 01</InfoTitle>
-            <InfoSubtitle>High Frequency</InfoSubtitle>
+            <InfoSubtitle>Markup 01y</InfoSubtitle>
           </Info>
           <Item position={'right'}>
             <IconButton size={'small'}>
@@ -65,7 +65,7 @@ const MusicListItemDemo = React.memo(function MusicListItem() {
           </Item>
           <Info useStyles={useMusicInfoStyles} minWidth={0}>
             <InfoTitle>Markup 02</InfoTitle>
-            <InfoSubtitle>Million Stars</InfoSubtitle>
+            <InfoSubtitle>Markup 02</InfoSubtitle>
             {/*<InfoCaption className={styles.text}>*/}
             {/*  <PlayCircleFilled /> playing...*/}
             {/*</InfoCaption>*/}

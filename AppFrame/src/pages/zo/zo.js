@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-React.useLayoutEffect = React.useEffect
 import lodash from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,6 +26,7 @@ import {
 
 import {useSelector,useDispatch} from 'dva';
 import Loading from '../../components/pageLoading/loading'
+React.useLayoutEffect = React.useEffect
 
 const queryString = require('query-string');
 
@@ -193,6 +193,9 @@ function Zo(props) {
                     Other Music
                   </Typography>
                   {albumData && <CardGallery  data={albumData}/>}
+                  <Typography variant="h6" paragraph style={{marginTop: 64}}>
+
+                  </Typography>
                 </>
               }
         </>

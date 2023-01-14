@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-React.useLayoutEffect = React.useEffect
 import Menu from '@mui-treasury/components/menu/nested';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -13,6 +12,7 @@ import {
   history,
   Helmet,
 } from 'umi';
+React.useLayoutEffect = React.useEffect
 
 const data = [{
   label: "123",

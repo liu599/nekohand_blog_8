@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-React.useLayoutEffect = React.useEffect;
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
@@ -27,6 +26,7 @@ import Ranking from '../components/ranking/ranking'
 
 import {useSelector,useDispatch} from 'dva';
 import Loading from '../components/pageLoading/loading'
+React.useLayoutEffect = React.useEffect;
 
 
 const useStyles = makeStyles((theme) => ({
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardRoot: {
     width: "100%",
+    height: "100%",
   }
 }));
 
@@ -78,10 +79,9 @@ function topPage(props) {
         loading.effects["nekoMusic/fetchMusic"] ? <Loading />
           : <>
             <Grid container spacing={1} style={{paddingBottom: 42}}>
-
               <Grid item lg={12}>
-                <Grid container justify="center" spacing={4}>
-                  <Grid item lg={8} style={{paddingTop: 60}}>
+                <Grid container justify-content="center" spacing={4}  style={{gridAutoFlow: 'row'}}>
+                  <Grid item lg={6} style={{paddingTop: 60}}>
                     <Card className={classes.cardRoot}>
                       <CardActionArea>
                         <CardMedia
@@ -110,11 +110,28 @@ function topPage(props) {
                       </CardActionArea>
                     </Card>
                   </Grid>
-                  <Grid item lg={4} style={{paddingTop: 60}}>
-                    <Typography variant="h5" color={"primary"}>
-                      Top 10 Most Recent Songs
-                    </Typography>
-                    <Ranking />
+                  <Grid item lg={6} style={{paddingTop: 60}}>
+                    <Card className={classes.cardRoot}>
+                      <CardActionArea>
+                        <CardMedia
+                          component='img' // add this line to use <img />
+                          image={require("../assets/genshin.png")}
+                          title="Contemplative Reptile"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            Current Playing: 原神
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary" component="p" paragraph>
+                            オープンワールド RPG: 主人公である双子の兄妹（空と蛍）は、多くの世界を渡り歩いていた。幻想世界テイワットに訪れた際、謎の神《天理の調停者》との戦いに敗北した主人公は、兄妹の片割れを神によって連れ去られ、自身は長い時を眠ったまま過ごすこととなった。
+                            目が覚めた時、兄妹はその片割れと離れ離れになっており、力のほとんどを失ってしまっていた。未来のテイワットにおいて偶然に出会ったテイワットガイドの妖精「パイモン」と共に、双子の片割れとの再会を目指し、多くの人々と出会いながら七つの国を巡り、七柱の神を尋ねる旅が始まる。
+                          </Typography>
+                          <Typography variant="button" color="textSecondary" component="p">
+                            <a href="https://genshin.hoyoverse.com/ja/home" target={"_blank"}>Read more...</a>
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
                   </Grid>
                 </Grid>
               </Grid>
@@ -133,12 +150,12 @@ function topPage(props) {
                   </span>
                 </Typography>
                 <Divider />
-                <div style={{paddingTop: 45}}>
+                <div style={{paddingTop: 24}}>
                   {props.music.storage.length > 0 && <CardGallery data={props.music.albums} />}
                 </div>
               </Grid>
             </Grid>
-            <Grid container spacing={6}>
+            <Grid container spacing={6} style={{paddingTop: 24}}>
               <Grid item lg={8} style={{minHeight: 550}}>
                 <Typography variant="h6" style={{position: "relative"}}>
                   Artist

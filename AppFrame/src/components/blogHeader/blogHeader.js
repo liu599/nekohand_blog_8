@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 React.useLayoutEffect = React.useEffect;
-import { fade, makeStyles } from '@material-ui/core/styles';
+import { fade, alpha, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -40,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
@@ -164,7 +164,7 @@ function PrimarySearchAppBar(props) {
           className={classes.toolbarTitle}
         >
           {`
-             Nekohand - 猫の手も借りたい (Preview)
+             Nekohand - 猫の手も借りたい
           `}
 
         </Typography>
