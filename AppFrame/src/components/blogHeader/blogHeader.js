@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
-React.useLayoutEffect = React.useEffect;
-import { fade, alpha, makeStyles } from '@material-ui/core/styles';
+import { alpha, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -10,15 +9,13 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
 import FlareOutlinedIcon from '@material-ui/icons/FlareOutlined';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { firebaseTabsStylesHook } from '@mui-treasury/styles/tabs';
 /*Status*/
 import { connect, history } from 'umi';
+React.useLayoutEffect = React.useEffect;
 
 /*Styles*/
 const useStyles = makeStyles((theme) => ({

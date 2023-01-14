@@ -5,7 +5,6 @@ import StickyFooter from '../components/stickyFooter';
 import { createTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import { deepOrange } from '@material-ui/core/colors';
 import Header from '../components/blogHeader/dynamicHeader';
 import { history } from 'umi';
 
