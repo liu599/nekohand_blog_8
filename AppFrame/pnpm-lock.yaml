@@ -22,7 +22,7 @@ specifiers:
   eslint-plugin-react-hooks: ^4.2.0
   fontsource-roboto: ^3.1.5
   husky: ^0.14.3
-  immer: ^8.0.0
+  immer: ^9.0.6
   lint-staged: ^7.2.2
   localforage: ^1.9.0
   lodash: ^4.17.20
@@ -49,7 +49,7 @@ dependencies:
   clsx: 1.2.1
   dva: 2.6.0-beta.22_wcqkhtmu7mswc6yz4uyexck3ty
   fontsource-roboto: 3.1.5
-  immer: 8.0.4
+  immer: 9.0.17
   localforage: 1.10.0
   lodash: 4.17.21
   material-ui-popup-state: 1.9.3_b3ftfhihcayeqeykzrqvlg7n3y
@@ -4402,8 +4402,8 @@ packages:
     resolution: {integrity: sha512-yM7jo9+hvYgvdCQdqvhCNRRio0SCXc8xDPzA25SvKWa7b1WVPjLwQs1VYU5JPXjcJPTqAa5NP5dqpORGYBQ2AA==}
     dev: true
 
-  /immer/8.0.4:
-    resolution: {integrity: sha512-jMfL18P+/6P6epANRvRk6q8t+3gGhqsJ9EuJ25AXE+9bNTYtssvzeYbEd0mXRYWCmmXSIbnlpz6vd6iJlmGGGQ==}
+  /immer/9.0.17:
+    resolution: {integrity: sha512-+hBruaLSQvkPfxRiTLK/mi4vLH+/VQS6z2KJahdoxlleFOI8ARqzOF17uy12eFDlqWmPoygwc5evgwcp+dlHhg==}
     dev: false
 
   /immutable/3.8.2:
